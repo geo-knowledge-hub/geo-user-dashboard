@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "application_users",
+  "info": {
+    "singularName": "application-user",
+    "pluralName": "application-users",
+    "displayName": "Application User",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "organizations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::organization.organization"
+    },
+    "countries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::country.country"
+    },
+    "geo_work_programme_activities": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::programme.programme"
+    },
+    "packages": {
+      "type": "json"
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "application_users"
+    },
+    "usage_date": {
+      "type": "date",
+      "required": true
+    }
+  }
+}

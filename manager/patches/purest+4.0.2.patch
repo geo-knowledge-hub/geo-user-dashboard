@@ -1,0 +1,23 @@
+diff --git a/node_modules/purest/config/providers.json b/node_modules/purest/config/providers.json
+index 8dd1dae..34e3822 100644
+--- a/node_modules/purest/config/providers.json
++++ b/node_modules/purest/config/providers.json
+@@ -2784,5 +2784,18 @@
+         "authorization": "Bearer {auth}"
+       }
+     }
++  },
++  "gkhub": {
++    "default": {
++      "origin": "https://127.0.0.1:5000",
++      "path": "/api/me",
++      "headers": {
++        "authorization": "Bearer {auth}"
++      }
++    },
++    "oauth": {
++      "origin": "https://127.0.0.1:5000",
++      "path": "oauth/{path}"
++    }
+   }
+ }

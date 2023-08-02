@@ -1,0 +1,68 @@
+#
+# This file is part of User Dashboard.
+#
+# Copyright (C) 2023 GEO Secretariat.
+#
+# User Dashboard is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+#
+
+version: '3'
+services:
+  geo-knowledge-hub-manager:
+    container_name: geo-knowledge-hub-manager
+    build: .
+    image: geo-knowledge-hub-manager:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_HOST: geo-knowledge-hub-manager-db
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PORT: ${DATABASE_PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      NODE_ENV: ${NODE_ENV}
+    volumes:
+      - ./config:/opt/app/config
+      - ./src:/opt/app/src
+      - ./package.json:/opt/package.json
+      - ./yarn.lock:/opt/yarn.lock
+      - ./.env:/opt/app/.env
+      - ./public/uploads:/opt/app/public/uploads
+    ports:
+      - '1337:1337'
+    networks:
+      - geo-knowledge-hub-manager
+    depends_on:
+      - geo-knowledge-hub-manager-db
+
+  geo-knowledge-hub-manager-db:
+    container_name: geo-knowledge-hub-manager-db
+    platform: linux/amd64
+    restart: unless-stopped
+    env_file: .env
+    image: postgres:14.5-alpine
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+
+    volumes:
+      - geo-knowledge-hub-manager-data:/var/lib/postgresql/data/
+
+    ports:
+      - '5432:5432'
+
+    networks:
+      - geo-knowledge-hub-manager
+
+volumes:
+  geo-knowledge-hub-manager-data:
+
+networks:
+  geo-knowledge-hub-manager:
+    name: geo-knowledge-hub-manager
+    driver: bridge

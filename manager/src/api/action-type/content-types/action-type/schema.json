@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "action_types",
+  "info": {
+    "singularName": "action-type",
+    "pluralName": "action-types",
+    "displayName": "Action Type"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "minLength": 150
+    }
+  }
+}

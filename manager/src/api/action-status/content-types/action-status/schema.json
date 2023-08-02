@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "action_statuses",
+  "info": {
+    "singularName": "action-status",
+    "pluralName": "action-statuses",
+    "displayName": "Action Status"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "minLength": 150
+    }
+  }
+}

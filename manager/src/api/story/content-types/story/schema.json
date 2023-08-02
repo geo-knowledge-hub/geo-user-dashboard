@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stories",
+  "info": {
+    "singularName": "story",
+    "pluralName": "stories",
+    "displayName": "Story",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext",
+      "minLength": 150
+    },
+    "experiences": {
+      "type": "richtext",
+      "minLength": 150,
+      "required": true
+    },
+    "owner": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "stories"
+    },
+    "application_users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::application-user.application-user"
+    }
+  }
+}
