@@ -45,6 +45,7 @@ import {
   IconChevronRight,
   IconChevronLeft,
   IconChevronDownRight,
+  IconChevronDown,
 } from "@tabler/icons";
 
 import ReactCountryFlag from "react-country-flag";
@@ -171,9 +172,9 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         },
       },
       {
-        id: "usage_date",
-        accessorKey: "usage_date",
-        header: "Usage Date",
+        id: "updated_at",
+        accessorKey: "updated_at",
+        header: "Updated",
         cell: function render({ getValue }) {
           return <DateField value={getValue<any>()} />;
         },
@@ -184,11 +185,22 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         header: "Actions",
         cell: function render({ getValue }) {
           return (
-            <HStack>
-              <ShowButton hideText recordItemId={getValue() as string} />
-              <EditButton hideText recordItemId={getValue() as string} />
-              <DeleteButton hideText recordItemId={getValue() as string} />
-            </HStack>
+            <Menu>
+              <MenuButton
+                as={Button}
+                rightIcon={<IconChevronDown />}
+                variant={"outline"}
+              >
+                Actions
+              </MenuButton>
+              <MenuList>
+                <HStack justify={"space-around"}>
+                  <ShowButton hideText recordItemId={getValue() as string} />
+                  <EditButton hideText recordItemId={getValue() as string} />
+                  <DeleteButton hideText recordItemId={getValue() as string} />
+                </HStack>
+              </MenuList>
+            </Menu>
           );
         },
       },
@@ -225,7 +237,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
   const textColor = useColorModeValue("gray.700", "white");
 
   return (
-    <Flex direction={"column"} pt={{ base: "120px", md: "75px" }}>
+    <Flex direction={"column"}>
       <Card overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }}>
         <CardHeader p="6px 0px 22px 0px">
           <Text
