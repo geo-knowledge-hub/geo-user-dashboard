@@ -20,26 +20,14 @@
       "type": "email",
       "required": true
     },
-    "organizations": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::organization.organization"
-    },
-    "geo_work_programme_activities": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::programme.programme"
-    },
-    "countries": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::country.country"
-    },
     "owner": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "knowledge_providers"
+    },
+    "metadata": {
+      "type": "json"
     }
   }
 }

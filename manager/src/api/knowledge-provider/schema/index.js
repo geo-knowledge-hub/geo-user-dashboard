@@ -12,7 +12,6 @@ module.exports = yup.object({
   name: yup.string().required().min(1),
   email: yup.string().email().required(),
   owner: yup.number().integer().notRequired(),
-  usage_date: yup.date().required(),
   metadata: yup
     .object({
       organizations: yup
@@ -39,15 +38,6 @@ module.exports = yup.object({
             id: yup.string().required(),
             name: yup.string().required(),
             tag: yup.string().required(),
-          })
-        )
-        .required(),
-      packages: yup
-        .array()
-        .of(
-          yup.object({
-            id: yup.string().required(),
-            name: yup.string().required(),
           })
         )
         .required(),
