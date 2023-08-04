@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "@chakra-ui/react": "^2.5.1",
+    "@hookform/resolvers": "^3.1.1",
     "@refinedev/chakra-ui": "^2.5.4",
     "@refinedev/cli": "^2.7.4",
     "@refinedev/core": "^4.28.2",
@@ -17,13 +18,17 @@
     "@tabler/icons": "^1.1.0",
     "axios": "^0.26.1",
     "chakra-dayzed-datepicker": "^0.2.9",
+    "chakra-react-select": "^4.7.0",
     "date-fns": "^2.30.0",
     "dayzed": "^3.2.3",
+    "qs": "^6.11.2",
     "react": "^18.0.0",
     "react-country-flag": "^3.1.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.30.0",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.8.1",
+    "urlcat": "^3.1.0",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/node": "^18.16.2",

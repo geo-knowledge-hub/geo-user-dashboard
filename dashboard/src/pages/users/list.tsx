@@ -81,7 +81,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
       },
       {
         id: "gwp",
-        accessorKey: "geo_work_programme_activities",
+        accessorKey: "metadata.programmes",
         header: "GEO Programme",
         cell: function render({ getValue }) {
           const programmes = getValue<any>();
@@ -108,7 +108,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
       },
       {
         id: "organizations",
-        accessorKey: "organizations",
+        accessorKey: "metadata.organizations",
         header: "Organizations",
         cell: function render({ getValue }) {
           const programmes = getValue<any>();
@@ -135,7 +135,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
       },
       {
         id: "countries",
-        accessorKey: "countries",
+        accessorKey: "metadata.countries",
         header: "Countries",
         cell: function render({ getValue }) {
           const countriesData = getValue<any>();
@@ -205,7 +205,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         },
       },
     ],
-    []
+    [],
   );
 
   const {
@@ -260,7 +260,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                       {!header.isPlaceholder &&
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                     </Th>
                   ))}
@@ -274,7 +274,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                     <Td key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </Td>
                   ))}

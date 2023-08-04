@@ -17,7 +17,7 @@ import { AuthConfig } from "../config";
 import GKHLogo from "../assets/gkh-logo.svg";
 
 /**
- * Component to complete the login flow handling 
+ * Component to complete the login flow handling
  * requests from Auth Backend.
  */
 export const AuthLoginRedirect: React.FC = () => {

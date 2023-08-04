@@ -16,7 +16,7 @@ const buildResourcePath = (path: string) =>
   `${ProviderRouterConfig.base.path}/${path}`;
 
 export const ProviderRouterConfig = {
-  name: "Providers",
+  name: "knowledge-providers",
   base: {
     path: "/knowledge-providers",
     component: <ProviderListPage />,

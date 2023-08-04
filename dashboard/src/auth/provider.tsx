@@ -36,7 +36,7 @@ export const AuthProvider: AuthBindings = {
     if (response.user) {
       localStorage.setItem(
         AuthConfig.storage_user_key,
-        JSON.stringify(response.user)
+        JSON.stringify(response.user),
       );
       localStorage.setItem(AuthConfig.storage_token_key, response.jwt);
 
