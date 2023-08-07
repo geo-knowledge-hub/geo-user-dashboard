@@ -40,112 +40,126 @@ import { ProviderRestAPI } from "./config";
 import { PROJECT_ID } from "./constants";
 import { Hero } from "./components";
 import { Title } from "./components/title";
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "./query";
 
-export const Dashboard = () => {
+interface WrapperProps {
+  children: React.ReactNode;
+}
+
+const Wrapper = ({ children }: WrapperProps) => {
   return (
     <BrowserRouter>
       <RefineKbarProvider>
-        <ChakraProvider theme={RefineThemes.Blue}>
-          <Refine
-            authProvider={AuthProvider}
-            dataProvider={DataProvider(ProviderRestAPI, axiosInstance)}
-            notificationProvider={notificationProvider}
-            routerProvider={routerBindings}
-            resources={[UserRouteResource, ProviderRouteResource]}
-            options={{
-              syncWithLocation: true,
-              warnWhenUnsavedChanges: true,
-              projectId: PROJECT_ID,
-            }}
-          >
-            <Routes>
-              <Route
-                path="/connect/:providerName/redirect"
-                element={<AuthLoginRedirect />}
-              />
-              <Route
-                element={
-                  <Authenticated fallback={<CatchAllNavigate to="/login" />}>
-                    <ThemedLayoutV2
-                      Header={() => <Header sticky />}
-                      Title={({ collapsed }) => <Title collapsed={collapsed} />}
-                    >
-                      <Outlet />
-                    </ThemedLayoutV2>
-                  </Authenticated>
-                }
-              >
-                <Route index element={<Hero />} />
-                <Route
-                  index
-                  element={
-                    <NavigateToResource resource={UserRouteConfig.base.path} />
-                  }
-                />
-                <Route path={UserRouteConfig.base.path}>
-                  <Route index element={UserRouteConfig.base.component} />
-                  <Route
-                    path={UserRouteConfig.create.path}
-                    element={UserRouteConfig.create.component}
-                  />
-                  <Route
-                    path={UserRouteConfig.edit.path}
-                    element={UserRouteConfig.edit.component}
-                  />
-                  <Route
-                    path={UserRouteConfig.show.path}
-                    element={UserRouteConfig.show.component}
-                  />
-                </Route>
-
-                <Route path={ProviderRouterConfig.base.path}>
-                  <Route index element={ProviderRouterConfig.base.component} />
-                  <Route
-                    path={ProviderRouterConfig.create.path}
-                    element={ProviderRouterConfig.create.component}
-                  />
-                  <Route
-                    path={ProviderRouterConfig.edit.path}
-                    element={ProviderRouterConfig.edit.component}
-                  />
-                  <Route
-                    path={ProviderRouterConfig.show.path}
-                    element={ProviderRouterConfig.show.component}
-                  />
-                </Route>
-                <Route path="*" element={<ErrorComponent />} />
-              </Route>
-              <Route
-                element={
-                  <Authenticated fallback={<Outlet />}>
-                    <NavigateToResource />
-                  </Authenticated>
-                }
-              >
-                <Route
-                  path="/login"
-                  element={
-                    <AuthPage
-                      type="login"
-                      providers={AuthProviders}
-                      registerLink={false}
-                      forgotPasswordLink={false}
-                      title={
-                        <Heading fontWeight={"bold"} fontSize={"2xl"}>
-                          GEO Knowledge Hub Dashboard
-                        </Heading>
-                      }
-                    />
-                  }
-                />
-              </Route>
-            </Routes>
-            <RefineKbar />
-            <UnsavedChangesNotifier />
-            <DocumentTitleHandler />
-          </Refine>
-        </ChakraProvider>
+        <QueryClientProvider client={queryClient}>
+          <ChakraProvider theme={RefineThemes.Blue}>{children}</ChakraProvider>
+        </QueryClientProvider>
       </RefineKbarProvider>
     </BrowserRouter>
+  );
+};
+
+export const Dashboard = () => {
+  return (
+    <Wrapper>
+      <Refine
+        authProvider={AuthProvider}
+        dataProvider={DataProvider(ProviderRestAPI, axiosInstance)}
+        notificationProvider={notificationProvider}
+        routerProvider={routerBindings}
+        resources={[UserRouteResource, ProviderRouteResource]}
+        options={{
+          syncWithLocation: true,
+          warnWhenUnsavedChanges: true,
+          projectId: PROJECT_ID,
+        }}
+      >
+        <Routes>
+          <Route
+            path="/connect/:providerName/redirect"
+            element={<AuthLoginRedirect />}
+          />
+          <Route
+            element={
+              <Authenticated fallback={<CatchAllNavigate to="/login" />}>
+                <ThemedLayoutV2
+                  Header={() => <Header sticky />}
+                  Title={({ collapsed }) => <Title collapsed={collapsed} />}
+                >
+                  <Outlet />
+                </ThemedLayoutV2>
+              </Authenticated>
+            }
+          >
+            <Route index element={<Hero />} />
+            <Route
+              index
+              element={
+                <NavigateToResource resource={UserRouteConfig.base.path} />
+              }
+            />
+            <Route path={UserRouteConfig.base.path}>
+              <Route index element={UserRouteConfig.base.component} />
+              <Route
+                path={UserRouteConfig.create.path}
+                element={UserRouteConfig.create.component}
+              />
+              <Route
+                path={UserRouteConfig.edit.path}
+                element={UserRouteConfig.edit.component}
+              />
+              <Route
+                path={UserRouteConfig.show.path}
+                element={UserRouteConfig.show.component}
+              />
+            </Route>
+
+            <Route path={ProviderRouterConfig.base.path}>
+              <Route index element={ProviderRouterConfig.base.component} />
+              <Route
+                path={ProviderRouterConfig.create.path}
+                element={ProviderRouterConfig.create.component}
+              />
+              <Route
+                path={ProviderRouterConfig.edit.path}
+                element={ProviderRouterConfig.edit.component}
+              />
+              <Route
+                path={ProviderRouterConfig.show.path}
+                element={ProviderRouterConfig.show.component}
+              />
+            </Route>
+            <Route path="*" element={<ErrorComponent />} />
+          </Route>
+          <Route
+            element={
+              <Authenticated fallback={<Outlet />}>
+                <NavigateToResource />
+              </Authenticated>
+            }
+          >
+            <Route
+              path="/login"
+              element={
+                <AuthPage
+                  type="login"
+                  providers={AuthProviders}
+                  registerLink={false}
+                  forgotPasswordLink={false}
+                  title={
+                    <Heading fontWeight={"bold"} fontSize={"2xl"}>
+                      GEO Knowledge Hub Dashboard
+                    </Heading>
+                  }
+                />
+              }
+            />
+          </Route>
+        </Routes>
+        <RefineKbar />
+        <UnsavedChangesNotifier />
+        <DocumentTitleHandler />
+      </Refine>
+    </Wrapper>
   );
 };

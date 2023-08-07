@@ -20,7 +20,6 @@ import {
 
 import { z } from "zod";
 
-import { SubmitHandler } from "react-hook-form";
 import { useForm } from "@refinedev/react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 

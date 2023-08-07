@@ -8,6 +8,8 @@
 
 import { Box } from "@chakra-ui/react";
 
+import { useQuery } from "react-query";
+
 import { MultiSelectionField } from "./base";
 import { VocabulariesApi } from "../../resources/gkhub";
 import { StrapiApi } from "../../resources/strapi";
@@ -17,7 +19,7 @@ import { StrapiApi } from "../../resources/strapi";
 //
 const readHubData = async (
   apiPrefix: string,
-  suggestData: string,
+  suggestData: string
 ): Promise<object[]> => {
   const vocabulariesApi = new VocabulariesApi(apiPrefix);
 
@@ -28,7 +30,7 @@ const readHubData = async (
 
 const readStrapiData = async (
   apiPrefix: string,
-  suggestData: string,
+  suggestData: string
 ): Promise<object[]> => {
   const countriesApi = new StrapiApi(apiPrefix);
 
@@ -40,7 +42,7 @@ const readStrapiData = async (
 const generateVocabularyPopulationFunction = (
   apiPrefix: string,
   dataHandler: (row: any) => object,
-  dataReader: (apiPrefix: string, suggestData: string) => Promise<object[]>,
+  dataReader: (apiPrefix: string, suggestData: string) => Promise<object[]>
 ) => {
   return (inputValue: string, callback: any) => {
     dataReader(apiPrefix, inputValue).then((data) => {
@@ -55,21 +57,34 @@ const generateVocabularyPopulationFunction = (
 //
 
 export const OrganizationsField = ({ label, path, control, rules }) => {
+  const apiPrefix = "affiliations"; // GKH API Endpoint
+
+  const { isLoading, data: initialOptions } = useQuery(apiPrefix, () => {
+    return readHubData(apiPrefix, "").then((data) =>
+      data.map((row) => ({
+        value: row,
+        label: row.name,
+      }))
+    );
+  });
+
   return (
     <MultiSelectionField
       name={path}
       label={label}
       control={control}
       rules={rules}
+      isLoading={isLoading}
+      defaultOptions={initialOptions}
       loadOptions={generateVocabularyPopulationFunction(
-        "affiliations",
+        apiPrefix,
         (row: any) => {
           return {
-            label: `${row.name} (${row.acronym})`,
+            label: row.name,
             value: row,
           };
         },
-        readHubData,
+        readHubData
       )}
       serializer={(values) => {
         return values !== null
@@ -93,6 +108,17 @@ export const OrganizationsField = ({ label, path, control, rules }) => {
 };
 
 export const ProgrammeField = ({ label, path, control, rules }) => {
+  const apiPrefix = "vocabularies/geowptypes";
+
+  const { isLoading, data: initialOptions } = useQuery(apiPrefix, () => {
+    return readHubData(apiPrefix, "").then((data) =>
+      data.map((row) => ({
+        value: row,
+        label: row.title.en,
+      }))
+    );
+  });
+
   return (
     <Box mb={"3"}>
       <MultiSelectionField
@@ -100,15 +126,17 @@ export const ProgrammeField = ({ label, path, control, rules }) => {
         label={label}
         control={control}
         rules={rules}
+        isLoading={isLoading}
+        defaultOptions={initialOptions}
         loadOptions={generateVocabularyPopulationFunction(
-          "vocabularies/geowptypes",
+          apiPrefix,
           (row: any) => {
             return {
               label: row.title.en,
               value: row,
             };
           },
-          readHubData,
+          readHubData
         )}
         serializer={(values) => {
           return values !== null
@@ -133,6 +161,17 @@ export const ProgrammeField = ({ label, path, control, rules }) => {
 };
 
 export const CountriesField = ({ label, path, control, rules }) => {
+  const apiPrefix = "api/countries";
+
+  const { isLoading, data: initialOptions } = useQuery(apiPrefix, () => {
+    return readStrapiData(apiPrefix, "").then((data) =>
+      data.map((row) => ({
+        label: row.attributes.name,
+        value: { id: row.id, ...row.attributes },
+      }))
+    );
+  });
+
   return (
     <Box mb={"3"}>
       <MultiSelectionField
@@ -140,6 +179,8 @@ export const CountriesField = ({ label, path, control, rules }) => {
         label={label}
         control={control}
         rules={rules}
+        isLoading={isLoading}
+        defaultOptions={initialOptions}
         loadOptions={generateVocabularyPopulationFunction(
           "api/countries",
           (row: any) => {
@@ -148,7 +189,7 @@ export const CountriesField = ({ label, path, control, rules }) => {
               value: { id: row.id, ...row.attributes },
             };
           },
-          readStrapiData,
+          readStrapiData
         )}
         serializer={(values) => {
           return values !== null

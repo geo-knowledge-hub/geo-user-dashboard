@@ -16,6 +16,7 @@ import {
   ShowButton,
   DeleteButton,
   DateField,
+  CreateButton,
 } from "@refinedev/chakra-ui";
 import {
   Table,
@@ -205,7 +206,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         },
       },
     ],
-    [],
+    []
   );
 
   const {
@@ -240,15 +241,18 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
     <Flex direction={"column"}>
       <Card overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }}>
         <CardHeader p="6px 0px 22px 0px">
-          <Text
-            fontSize="xl"
-            color={textColor}
-            fontWeight="bold"
+          <Flex
+            alignItems={"center"}
+            justifyContent={"space-between"}
             marginLeft="20px"
+            marginRight={"20px"}
             marginTop="20px"
           >
-            Application Users
-          </Text>
+            <Text fontSize="xl" color={textColor} fontWeight="bold">
+              Application Users
+            </Text>
+            <CreateButton />
+          </Flex>
         </CardHeader>
         <CardBody>
           <Table variant="simple" color={textColor}>
@@ -260,7 +264,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                       {!header.isPlaceholder &&
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )}
                     </Th>
                   ))}
@@ -274,7 +278,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                     <Td key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </Td>
                   ))}
