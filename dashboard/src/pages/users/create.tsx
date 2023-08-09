@@ -31,6 +31,7 @@ import {
 } from "../../components/form";
 
 import { UserSchema } from "./schema";
+import { PackagesField } from "../../components/form/packages";
 
 //
 // Data types
@@ -56,6 +57,8 @@ export const UserCreatePage: React.FC<IResourceComponentsProps> = () => {
   } = useForm<UserApplicationType>({
     resolver: zodResolver(UserSchema),
   });
+
+  console.log(errors);
 
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
@@ -119,6 +122,15 @@ export const UserCreatePage: React.FC<IResourceComponentsProps> = () => {
             label="Country"
             control={control}
             rules={[]}
+          />
+        </Box>
+
+        <Box mb={"3"}>
+          <PackagesField
+            name={"metadata.packages"}
+            label={"Knowledge Packages"}
+            control={control}
+            error={errors?.metadata?.packages}
           />
         </Box>
       </form>

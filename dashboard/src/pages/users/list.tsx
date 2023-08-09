@@ -206,7 +206,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         },
       },
     ],
-    []
+    [],
   );
 
   const {
@@ -264,7 +264,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                       {!header.isPlaceholder &&
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                     </Th>
                   ))}
@@ -278,7 +278,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                     <Td key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </Td>
                   ))}

@@ -11,7 +11,7 @@ import { join } from "urlcat";
 import { axiosInstance } from "../network";
 import { AxiosInstance, AxiosResponse } from "axios";
 
-export class BaseApiClient {
+export class BaseApiClient<T> {
   apiUrl: string;
   httpClient: AxiosInstance;
 
@@ -26,7 +26,7 @@ export class BaseApiClient {
 
   async createResponse(
     axiosCall: () => Promise<AxiosResponse>,
-  ): Promise<ApiClientResponse> {
+  ): Promise<ApiClientResponse<T>> {
     try {
       let response: AxiosResponse = await axiosCall();
 

@@ -18,7 +18,7 @@ export const UserSchema = z.object({
       .object({
         id: z.string().nonempty(),
         name: z.string().nonempty(),
-        tag: z.string().nonempty(),
+        tag: z.string().or(z.undefined()),
       })
       .array()
       .nonempty(),

@@ -13,12 +13,12 @@ import { API_URL } from "../constants";
 import { AxiosInstance } from "axios";
 import { BaseApiClient } from "./base";
 
-export class StrapiApi extends BaseApiClient {
+export class StrapiApi<T> extends BaseApiClient<T> {
   constructor(apiPrefix: string, httpClient: AxiosInstance = axiosInstance) {
     super(API_URL, apiPrefix, httpClient);
   }
 
-  async suggest(suggestText: string): Promise<ApiClientResponse> {
+  async suggest(suggestText: string): Promise<ApiClientResponse<T>> {
     const operationUrl = urlcat(this.apiUrl, {
       name: {
         $contains: suggestText,

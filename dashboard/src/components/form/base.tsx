@@ -38,15 +38,6 @@ export const MultiSelectionField = ({
     rules,
   });
 
-  const transformValue = (obj: ResultData[] | undefined) => {
-    if (obj === undefined) return obj;
-
-    return obj.map((row: ResultData) => ({
-      value: row?.id,
-      label: row?.name,
-    }));
-  };
-
   return (
     <FormControl isInvalid={invalid}>
       <FormLabel>{label}</FormLabel>
@@ -54,14 +45,6 @@ export const MultiSelectionField = ({
       <AsyncSelect
         isMulti
         onChange={(values) => {
-          const processedValues =
-            values !== null
-              ? values.map((row: SelectData) => ({
-                  id: row.value,
-                  name: row.label,
-                }))
-              : null;
-
           onChange(serializer(values));
         }}
         onBlur={onBlur}

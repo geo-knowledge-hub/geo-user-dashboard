@@ -27,6 +27,8 @@ import routerBindings, {
   DocumentTitleHandler,
 } from "@refinedev/react-router-v6";
 
+import { DashboardTheme } from "./theme";
+
 import { UserRouteConfig, UserRouteResource } from "./pages/users";
 import { ProviderRouterConfig, ProviderRouteResource } from "./pages/providers";
 
@@ -52,7 +54,7 @@ const Wrapper = ({ children }: WrapperProps) => {
     <BrowserRouter>
       <RefineKbarProvider>
         <QueryClientProvider client={queryClient}>
-          <ChakraProvider theme={RefineThemes.Blue}>{children}</ChakraProvider>
+          <ChakraProvider theme={DashboardTheme}>{children}</ChakraProvider>
         </QueryClientProvider>
       </RefineKbarProvider>
     </BrowserRouter>

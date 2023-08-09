@@ -19,7 +19,7 @@ import { StrapiApi } from "../../resources/strapi";
 //
 const readHubData = async (
   apiPrefix: string,
-  suggestData: string
+  suggestData: string,
 ): Promise<object[]> => {
   const vocabulariesApi = new VocabulariesApi(apiPrefix);
 
@@ -30,7 +30,7 @@ const readHubData = async (
 
 const readStrapiData = async (
   apiPrefix: string,
-  suggestData: string
+  suggestData: string,
 ): Promise<object[]> => {
   const countriesApi = new StrapiApi(apiPrefix);
 
@@ -42,7 +42,7 @@ const readStrapiData = async (
 const generateVocabularyPopulationFunction = (
   apiPrefix: string,
   dataHandler: (row: any) => object,
-  dataReader: (apiPrefix: string, suggestData: string) => Promise<object[]>
+  dataReader: (apiPrefix: string, suggestData: string) => Promise<object[]>,
 ) => {
   return (inputValue: string, callback: any) => {
     dataReader(apiPrefix, inputValue).then((data) => {
@@ -64,7 +64,7 @@ export const OrganizationsField = ({ label, path, control, rules }) => {
       data.map((row) => ({
         value: row,
         label: row.name,
-      }))
+      })),
     );
   });
 
@@ -84,7 +84,7 @@ export const OrganizationsField = ({ label, path, control, rules }) => {
             value: row,
           };
         },
-        readHubData
+        readHubData,
       )}
       serializer={(values) => {
         return values !== null
@@ -115,7 +115,7 @@ export const ProgrammeField = ({ label, path, control, rules }) => {
       data.map((row) => ({
         value: row,
         label: row.title.en,
-      }))
+      })),
     );
   });
 
@@ -136,7 +136,7 @@ export const ProgrammeField = ({ label, path, control, rules }) => {
               value: row,
             };
           },
-          readHubData
+          readHubData,
         )}
         serializer={(values) => {
           return values !== null
@@ -168,7 +168,7 @@ export const CountriesField = ({ label, path, control, rules }) => {
       data.map((row) => ({
         label: row.attributes.name,
         value: { id: row.id, ...row.attributes },
-      }))
+      })),
     );
   });
 
@@ -189,7 +189,7 @@ export const CountriesField = ({ label, path, control, rules }) => {
               value: { id: row.id, ...row.attributes },
             };
           },
-          readStrapiData
+          readStrapiData,
         )}
         serializer={(values) => {
           return values !== null

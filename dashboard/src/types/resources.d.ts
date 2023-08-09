@@ -6,18 +6,8 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-type DataHits = {
-  hits: object[];
-};
-
-type ApiDataResponse = {
-  hits: DataHits;
-  sortBy: string;
-  links: object;
-};
-
-type ApiClientResponse = {
-  data: ApiDataResponse;
+type ApiClientResponse<T> = {
+  data: T;
   code: number;
   errors: object[];
 };
