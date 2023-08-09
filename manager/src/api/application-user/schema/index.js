@@ -21,7 +21,7 @@ module.exports = yup.object({
           yup.object({
             id: yup.string().required(),
             name: yup.string().required(),
-            tag: yup.string().required(),
+            tag: yup.string(),
           })
         )
         .required(),
