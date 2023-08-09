@@ -54,7 +54,7 @@ const PAGINATION_SIZES = [5, 10, 15];
 interface PackageSelectorProps {
   title: string;
   isOpen: boolean;
-  formPackages: KnowledgePackage[];
+  formPackages: KnowledgePackageRepresentation[];
 
   onClose: () => void;
   handleAddition: (packages: KnowledgePackage[]) => void;
@@ -72,31 +72,29 @@ interface SizeSelectorProps {
 }
 
 interface PaginationProps {
-  currentPage: number | undefined;
-  totalRecords: number | undefined;
-  size: number | undefined;
-  hasPrevious: boolean | undefined;
-  hasNext: boolean | undefined;
+  currentPage: number;
+  totalRecords: number;
+  size: number;
+  hasPrevious: boolean;
+  hasNext: boolean;
   onChange: (page: number) => void;
 }
 
 interface QueryObject {
-  q?: string;
-  page?: number;
-  size?: number;
+  q: string;
+  page: number;
+  size: number;
 }
 
 //
 // Auxiliary functions
 //
-const readHubData = async (
-  query: QueryObject,
-): Promise<PackagesApiResponse> => {
-  const packagesApiClient = new RecordApi<PackagesApiResponse>("records");
+const readHubData = async (query: QueryObject): Promise<HubApiResponse> => {
+  const packagesApiClient = new RecordApi<HubApiResponse>("records");
 
   return packagesApiClient
     .search(query)
-    .then((response) => response.data as PackagesApiResponse);
+    .then((response) => response.data as HubApiResponse);
 };
 
 //
@@ -299,7 +297,7 @@ export const PackageSelector = ({
   const toast = useToast();
 
   // Fetching operation
-  const { data, isFetching } = useQuery<PackagesApiResponse>(
+  const { data, isFetching } = useQuery<HubApiResponse>(
     ["selector:packages", query],
     () => {
       return readHubData(query);
@@ -312,7 +310,7 @@ export const PackageSelector = ({
 
   // Auxiliary functions
   const appendPackage = (pkg: KnowledgePackage) =>
-    setSelectedPackages([...selectedPackages, { ...pkg, pid: pkg.id }]);
+    setSelectedPackages([...selectedPackages, pkg]);
 
   const removePackage = (pkg: KnowledgePackage) =>
     setSelectedPackages(selectedPackages.filter((p) => p.id !== pkg.id));
@@ -324,7 +322,7 @@ export const PackageSelector = ({
   // Prepare data to render
   const dataLinks = data?.links;
   const dataRecords = data?.hits.hits;
-  const dataNumberOfRecords = data?.hits.total;
+  const dataNumberOfRecords = data !== undefined ? data.hits.total : 0;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"2xl"}>
@@ -364,7 +362,7 @@ export const PackageSelector = ({
                   <PackageItem
                     key={row.id}
                     data={row}
-                    alreadyAdded={formPackages.some((fp) => fp.pid === row.id)}
+                    alreadyAdded={formPackages.some((fp) => fp.id === row.id)}
                     handleSelection={appendPackage}
                     handleDeletion={removePackage}
                   />

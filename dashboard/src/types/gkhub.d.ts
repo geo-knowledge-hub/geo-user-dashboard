@@ -23,7 +23,6 @@ interface CredentialResponse {
 
 interface KnowledgePackage {
   id: string;
-  pid?: string;
   status: string;
   updated: string;
   metadata: {
@@ -42,7 +41,12 @@ interface KnowledgePackage {
   };
 }
 
-interface PackagesApiResponse {
+interface KnowledgePackageRepresentation {
+  id: string;
+  name?: string;
+}
+
+interface HubApiResponse {
   hits: {
     hits: KnowledgePackage[];
     total: number;

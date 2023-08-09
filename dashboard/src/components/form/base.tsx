@@ -22,7 +22,8 @@ type ResultData = {
 
 export const MultiSelectionField = ({
   control,
-  name,
+  from,
+  field,
   label,
   rules,
   serializer,
@@ -33,10 +34,15 @@ export const MultiSelectionField = ({
     field: { onChange, onBlur, value, ref },
     fieldState: { invalid, error },
   } = useController({
-    name,
+    name: from,
     control,
     rules,
   });
+
+  const addNestedKey = (data: any) => ({ [field]: data });
+  const getFromNestedKey = (data: any) => {
+    return data !== undefined ? data[field] : data;
+  };
 
   return (
     <FormControl isInvalid={invalid}>
@@ -45,11 +51,14 @@ export const MultiSelectionField = ({
       <AsyncSelect
         isMulti
         onChange={(values) => {
-          onChange(serializer(values));
+          onChange({
+            ...value,
+            ...addNestedKey(serializer(values)),
+          });
         }}
         onBlur={onBlur}
         ref={ref}
-        value={deserializer(value)}
+        value={deserializer(getFromNestedKey(value))}
         {...props}
       />
 

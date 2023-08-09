@@ -28,10 +28,10 @@ import {
   DateField,
   OrganizationsField,
   ProgrammeField,
+  PackagesField,
 } from "../../components/form";
 
 import { UserSchema } from "./schema";
-import { PackagesField } from "../../components/form/packages";
 
 //
 // Data types
@@ -58,82 +58,82 @@ export const UserCreatePage: React.FC<IResourceComponentsProps> = () => {
     resolver: zodResolver(UserSchema),
   });
 
-  console.log(errors);
-
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
-      <form>
-        <FormControl mb={"3"} isInvalid={!!errors?.name}>
-          <FormLabel>Name</FormLabel>
-          <Input
-            type="text"
-            {...register("name", {
-              required: "This field is required",
-            })}
-          />
-          <FormErrorMessage>
-            {(errors as any)?.name?.message as string}
-          </FormErrorMessage>
-        </FormControl>
+      <FormControl mb={"3"} isInvalid={!!errors?.name}>
+        <FormLabel>Name</FormLabel>
+        <Input
+          type="text"
+          {...register("name", {
+            required: "This field is required",
+          })}
+        />
+        <FormErrorMessage>
+          {(errors as any)?.name?.message as string}
+        </FormErrorMessage>
+      </FormControl>
 
-        <FormControl mb="3" isInvalid={!!(errors as any)?.email}>
-          <FormLabel>Email</FormLabel>
-          <Input
-            type="email"
-            {...register("email", {
-              required: "This field is required",
-            })}
-          />
-          <FormErrorMessage>
-            {(errors as any)?.email?.message as string}
-          </FormErrorMessage>
-        </FormControl>
+      <FormControl mb="3" isInvalid={!!(errors as any)?.email}>
+        <FormLabel>Email</FormLabel>
+        <Input
+          type="email"
+          {...register("email", {
+            required: "This field is required",
+          })}
+        />
+        <FormErrorMessage>
+          {(errors as any)?.email?.message as string}
+        </FormErrorMessage>
+      </FormControl>
 
-        <Box mb={"3"}>
-          <DateField
-            name="usage_date"
-            label="Application usage date"
-            control={control}
-            rules={[]}
-          />
-        </Box>
+      <Box mb={"3"}>
+        <DateField
+          name="usage_date"
+          label="Application usage date"
+          control={control}
+          rules={[]}
+        />
+      </Box>
 
-        <Box mb={"3"}>
-          <OrganizationsField
-            path="metadata.organizations"
-            label="Organizations"
-            control={control}
-            rules={[]}
-          />
-        </Box>
+      <Box mb={"3"}>
+        <CountriesField
+          from="metadata"
+          field="countries"
+          label="Country"
+          control={control}
+          rules={[]}
+        />
+      </Box>
 
-        <Box mb={"3"}>
-          <ProgrammeField
-            path="metadata.programmes"
-            label="GEO Work Programme activities"
-            control={control}
-            rules={[]}
-          />
-        </Box>
+      <Box mb={"3"}>
+        <OrganizationsField
+          from="metadata"
+          field="organizations"
+          label="Organizations"
+          control={control}
+          rules={[]}
+        />
+      </Box>
 
-        <Box mb={"3"}>
-          <CountriesField
-            path="metadata.countries"
-            label="Country"
-            control={control}
-            rules={[]}
-          />
-        </Box>
+      <Box mb={"3"}>
+        <ProgrammeField
+          from="metadata"
+          field="programmes"
+          label="GEO Work Programme activities"
+          control={control}
+          rules={[]}
+        />
+      </Box>
 
-        <Box mb={"3"}>
-          <PackagesField
-            name={"metadata.packages"}
-            label={"Knowledge Packages"}
-            control={control}
-            error={errors?.metadata?.packages}
-          />
-        </Box>
-      </form>
+      <Box mb={"3"}>
+        <PackagesField
+          from="metadata"
+          field="packages"
+          label={"Knowledge Packages"}
+          control={control}
+          error={errors?.metadata?.packages}
+        />
+      </Box>
     </Create>
   );
 };

@@ -21,18 +21,18 @@ const readHubData = async (
   apiPrefix: string,
   suggestData: string,
 ): Promise<object[]> => {
-  const vocabulariesApi = new VocabulariesApi(apiPrefix);
+  const vocabulariesApi = new VocabulariesApi<HubApiResponse>(apiPrefix);
 
   return vocabulariesApi.suggest(suggestData).then((response) => {
     return response.data.hits.hits;
   });
 };
 
-const readStrapiData = async (
+const readManagerData = async (
   apiPrefix: string,
   suggestData: string,
 ): Promise<object[]> => {
-  const countriesApi = new StrapiApi(apiPrefix);
+  const countriesApi = new StrapiApi<ManagerApiResponse>(apiPrefix);
 
   return countriesApi.suggest(suggestData).then((response) => {
     return response.data.data;
@@ -56,7 +56,7 @@ const generateVocabularyPopulationFunction = (
 // Components
 //
 
-export const OrganizationsField = ({ label, path, control, rules }) => {
+export const OrganizationsField = ({ from, field, label, control, rules }) => {
   const apiPrefix = "affiliations"; // GKH API Endpoint
 
   const { isLoading, data: initialOptions } = useQuery(apiPrefix, () => {
@@ -70,7 +70,8 @@ export const OrganizationsField = ({ label, path, control, rules }) => {
 
   return (
     <MultiSelectionField
-      name={path}
+      from={from}
+      field={field}
       label={label}
       control={control}
       rules={rules}
@@ -107,7 +108,7 @@ export const OrganizationsField = ({ label, path, control, rules }) => {
   );
 };
 
-export const ProgrammeField = ({ label, path, control, rules }) => {
+export const ProgrammeField = ({ from, field, label, control, rules }) => {
   const apiPrefix = "vocabularies/geowptypes";
 
   const { isLoading, data: initialOptions } = useQuery(apiPrefix, () => {
@@ -122,7 +123,8 @@ export const ProgrammeField = ({ label, path, control, rules }) => {
   return (
     <Box mb={"3"}>
       <MultiSelectionField
-        name={path}
+        from={from}
+        field={field}
         label={label}
         control={control}
         rules={rules}
@@ -140,11 +142,18 @@ export const ProgrammeField = ({ label, path, control, rules }) => {
         )}
         serializer={(values) => {
           return values !== null
-            ? values.map((row) => ({
-                id: row.value.id,
-                name: row.value.title.en,
-                tag: row.value.props.acronym,
-              }))
+            ? values.map((row) => {
+                let rowData = row.value;
+
+                if (row.value.props !== undefined) {
+                  rowData = {
+                    name: row.value.title.en,
+                    tag: row.value.props.acronym,
+                    id: row.value.id,
+                  };
+                }
+                return rowData;
+              })
             : null;
         }}
         deserializer={(values) => {
@@ -160,11 +169,11 @@ export const ProgrammeField = ({ label, path, control, rules }) => {
   );
 };
 
-export const CountriesField = ({ label, path, control, rules }) => {
+export const CountriesField = ({ from, field, label, control, rules }) => {
   const apiPrefix = "api/countries";
 
   const { isLoading, data: initialOptions } = useQuery(apiPrefix, () => {
-    return readStrapiData(apiPrefix, "").then((data) =>
+    return readManagerData(apiPrefix, "").then((data) =>
       data.map((row) => ({
         label: row.attributes.name,
         value: { id: row.id, ...row.attributes },
@@ -175,7 +184,8 @@ export const CountriesField = ({ label, path, control, rules }) => {
   return (
     <Box mb={"3"}>
       <MultiSelectionField
-        name={path}
+        from={from}
+        field={field}
         label={label}
         control={control}
         rules={rules}
@@ -189,7 +199,7 @@ export const CountriesField = ({ label, path, control, rules }) => {
               value: { id: row.id, ...row.attributes },
             };
           },
-          readStrapiData,
+          readManagerData,
         )}
         serializer={(values) => {
           return values !== null

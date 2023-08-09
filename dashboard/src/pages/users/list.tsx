@@ -239,7 +239,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Flex direction={"column"}>
-      <Card overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }}>
+      <Card>
         <CardHeader p="6px 0px 22px 0px">
           <Flex
             alignItems={"center"}
@@ -254,7 +254,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
             <CreateButton />
           </Flex>
         </CardHeader>
-        <CardBody>
+        <CardBody overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }}>
           <Table variant="simple" color={textColor}>
             <Thead>
               {getHeaderGroups().map((headerGroup) => (

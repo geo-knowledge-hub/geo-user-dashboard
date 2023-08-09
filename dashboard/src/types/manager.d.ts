@@ -6,7 +6,17 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-export { MultiSelectionField } from "./base";
-export { DateField } from "./date";
-export { CountriesField, ProgrammeField, OrganizationsField } from "./user";
-export { PackagesField } from "./packages";
+interface ManagerApiResponse {
+  data: {
+    id: number;
+    attributes: object;
+  }[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}

@@ -18,13 +18,14 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { IconPlus, IconTrash } from "@tabler/icons";
 import {
   Control,
   FieldError,
   UseFieldArrayProps,
-  useFieldArray,
+  useController,
 } from "react-hook-form";
+
+import { IconPlus, IconTrash } from "@tabler/icons";
 
 import { PackageSelector } from "./selector";
 
@@ -33,7 +34,8 @@ import { PackageSelector } from "./selector";
 //
 interface PackageFieldProps {
   control: Control<KnowledgePackage>;
-  name: string;
+  from: string;
+  field: string;
   label: string;
   rules?: UseFieldArrayProps<KnowledgePackage>["rules"];
   error: FieldError;
@@ -44,35 +46,70 @@ interface PackageFieldProps {
 //
 export const PackagesField = ({
   control,
-  name,
+  from,
+  field,
   label,
   rules,
-  error,
 }: PackageFieldProps) => {
   // States
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { fields, append, remove } = useFieldArray<KnowledgePackage>({
-    control: control,
-    name: name,
+
+  const {
+    field: { onChange, onBlur, value, ref },
+    fieldState: { invalid, error },
+  } = useController({
+    name: from,
+    control,
+    rules,
   });
 
   // Auxiliary functions
-  const handleMultipleAdditions = (packages: KnowledgePackage[]) => {
-    packages.forEach(({ id, pid, metadata }) => {
+  const addNestedKey = (data: any) => ({ [field]: data });
+
+  const getFromNestedKey = (data: any) => {
+    const nestedValue = data !== undefined ? data[field] : [];
+
+    return nestedValue !== undefined ? nestedValue : [];
+  };
+
+  const append = (data: KnowledgePackageRepresentation) => {
+    const currentValue = getFromNestedKey(value);
+    const newValue = [...currentValue, data];
+
+    // @ts-ignore
+    onChange({ ...value, ...addNestedKey(newValue) });
+  };
+
+  const remove = (data: KnowledgePackageRepresentation) => {
+    const currentValue = getFromNestedKey(value);
+    const newValue = currentValue.filter(
+      (row: KnowledgePackage) => row.id !== data.id,
+    );
+
+    // @ts-ignore
+    onChange({ ...value, ...addNestedKey(newValue) });
+  };
+
+  // Auxiliary functions
+  const handleMultipleAdditions = (
+    packages: KnowledgePackage[] | KnowledgePackageRepresentation[],
+  ) => {
+    packages.forEach(({ id, name, metadata }) => {
       append({
         id,
-        name: metadata.title,
+        name: name || metadata.title,
       });
     });
   };
 
-  const handleDeletion = (pkg: KnowledgePackage) => {
-    const pkgIndex = fields.indexOf(pkg);
-
-    remove(pkgIndex);
+  const handleDeletion = (
+    pkg: KnowledgePackage | KnowledgePackageRepresentation,
+  ) => {
+    remove(pkg);
   };
 
-  // Let's start with the selection of the Knowledge Packages
+  const fields: KnowledgePackageRepresentation[] = getFromNestedKey(value);
+
   return (
     <FormControl mt="5">
       <Flex justifyContent={"space-between"} mb={"5"}>
@@ -83,7 +120,7 @@ export const PackagesField = ({
         </Button>
       </Flex>
 
-      {fields.length > 0 && (
+      {fields && fields.length > 0 && (
         <VStack
           padding={"2"}
           maxH={"80"}
