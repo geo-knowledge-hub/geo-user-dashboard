@@ -14,6 +14,7 @@ import {
   Divider,
   Flex,
   Heading,
+  Link,
   SimpleGrid,
   Text,
   useBreakpointValue,
@@ -66,7 +67,7 @@ export const UserDetailsPage: React.FC<IResourceComponentsProps> = () => {
               </Flex>
 
               <Text fontSize="lg" color="gray.600" mb={4}>
-                {record?.email}
+                <Link href={`mailto:${record?.email}`}>{record?.email}</Link>
               </Text>
 
               <Divider mb={4} />

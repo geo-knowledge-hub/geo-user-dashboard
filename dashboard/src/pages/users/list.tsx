@@ -40,6 +40,7 @@ import {
   CardBody,
   useColorModeValue,
   Avatar,
+  ButtonGroup,
 } from "@chakra-ui/react";
 
 import {
@@ -176,27 +177,16 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         header: "Actions",
         cell: function render({ getValue }) {
           return (
-            <Menu>
-              <MenuButton
-                as={Button}
-                rightIcon={<IconChevronDown />}
-                variant={"outline"}
-              >
-                Actions
-              </MenuButton>
-              <MenuList>
-                <HStack justify={"space-around"}>
-                  <ShowButton hideText recordItemId={getValue() as string} />
-                  <EditButton hideText recordItemId={getValue() as string} />
-                  <DeleteButton hideText recordItemId={getValue() as string} />
-                </HStack>
-              </MenuList>
-            </Menu>
+            <ButtonGroup size={"sm"}>
+              <ShowButton hideText recordItemId={getValue() as string} />
+              <EditButton hideText recordItemId={getValue() as string} />
+              <DeleteButton hideText recordItemId={getValue() as string} />
+            </ButtonGroup>
           );
         },
       },
     ],
-    [],
+    []
   );
 
   const {
@@ -254,7 +244,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                       {!header.isPlaceholder &&
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )}
                     </Th>
                   ))}
@@ -268,7 +258,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                     <Td key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </Td>
                   ))}
