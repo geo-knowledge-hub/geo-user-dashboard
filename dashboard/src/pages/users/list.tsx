@@ -7,15 +7,15 @@
  */
 
 import React from "react";
-import { IResourceComponentsProps } from "@refinedev/core";
+
 import { useTable } from "@refinedev/react-table";
+import { IResourceComponentsProps } from "@refinedev/core";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
+
 import {
-  usePagination,
   EditButton,
   ShowButton,
   DeleteButton,
-  DateField,
   CreateButton,
 } from "@refinedev/chakra-ui";
 import {
@@ -27,7 +27,6 @@ import {
   Td,
   HStack,
   Button,
-  IconButton,
   Box,
   MenuItem,
   Menu,
@@ -43,14 +42,11 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 
-import {
-  IconChevronRight,
-  IconChevronLeft,
-  IconChevronDownRight,
-  IconChevronDown,
-} from "@tabler/icons";
+import { IconChevronDown } from "@tabler/icons";
 
 import ReactCountryFlag from "react-country-flag";
+
+import { ListPagination } from "../../components/list";
 
 export const UserListPage: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<ColumnDef<any>[]>(
@@ -266,7 +262,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
               ))}
             </Tbody>
           </Table>
-          <Pagination
+          <ListPagination
             current={current}
             pageCount={pageCount}
             setCurrent={setCurrent}
@@ -274,62 +270,5 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         </CardBody>
       </Card>
     </Flex>
-  );
-};
-
-type PaginationProps = {
-  current: number;
-  pageCount: number;
-  setCurrent: (page: number) => void;
-};
-
-const Pagination: React.FC<PaginationProps> = ({
-  current,
-  pageCount,
-  setCurrent,
-}) => {
-  const pagination = usePagination({
-    current,
-    pageCount,
-  });
-
-  return (
-    <Box display="flex" justifyContent="flex-end">
-      <HStack my="3" spacing="1">
-        {pagination?.prev && (
-          <IconButton
-            aria-label="previous page"
-            onClick={() => setCurrent(current - 1)}
-            disabled={!pagination?.prev}
-            variant="outline"
-          >
-            <IconChevronLeft size="18" />
-          </IconButton>
-        )}
-
-        {pagination?.items.map((page) => {
-          if (typeof page === "string") return <span key={page}>...</span>;
-
-          return (
-            <Button
-              key={page}
-              onClick={() => setCurrent(page)}
-              variant={page === current ? "solid" : "outline"}
-            >
-              {page}
-            </Button>
-          );
-        })}
-        {pagination?.next && (
-          <IconButton
-            aria-label="next page"
-            onClick={() => setCurrent(current + 1)}
-            variant="outline"
-          >
-            <IconChevronRight size="18" />
-          </IconButton>
-        )}
-      </HStack>
-    </Box>
   );
 };

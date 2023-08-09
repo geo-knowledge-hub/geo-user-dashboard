@@ -55,3 +55,14 @@ interface ApplicationUser {
     programmes: UserProgramme[];
   };
 }
+
+interface ProviderUser {
+  id: number;
+  name: string;
+  email: string;
+  metadata: {
+    countries: UserCountry[];
+    organizations: UserOrganization[];
+    programmes: UserProgramme[];
+  };
+}

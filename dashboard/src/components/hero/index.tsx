@@ -20,7 +20,7 @@ export const Hero = () => {
         >
           <Heading
             fontWeight={600}
-            fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+            fontSize={{ base: "2xl", sm: "4xl", md: "7xl" }}
             lineHeight={"110%"}
           >
             Welcome to the <br />
@@ -28,7 +28,7 @@ export const Hero = () => {
               User dashboard
             </Text>
           </Heading>
-          <Text color={"gray.500"}>
+          <Text color={"gray.600"} fontSize={"xl"}>
             The GEO Knowledge Hub User dashboard is where you can centralize
             information about the users of your applications. Doing this allows
             you to manage this data efficiently and never lose contact points
