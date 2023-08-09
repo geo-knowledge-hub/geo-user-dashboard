@@ -64,12 +64,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
             <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
               <Avatar name={name} w="50px" borderRadius="12px" me="18px" />
               <Flex direction="column">
-                <Text
-                  fontSize="md"
-                  color={textColor}
-                  fontWeight="bold"
-                  minWidth="100%"
-                >
+                <Text fontSize="md" color={textColor} fontWeight="bold">
                   {name}
                 </Text>
                 <Text fontSize="sm" color="gray.400" fontWeight="normal">
@@ -92,36 +87,10 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
               <MenuButton
                 as={Button}
                 variant={"outline"}
-                rightIcon={<IconChevronDownRight />}
+                rightIcon={<IconChevronDown />}
                 size={"sm"}
                 fontWeight={"normal"}
-              >
-                {programmes[0].tag}
-              </MenuButton>
-              <MenuList>
-                {programmes.map((programme: any, idx: number) => (
-                  <MenuItem key={idx}>{programme.name}</MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
-          );
-        },
-      },
-      {
-        id: "organizations",
-        accessorKey: "metadata.organizations",
-        header: "Organizations",
-        cell: function render({ getValue }) {
-          const programmes = getValue<any>();
-
-          return (
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant={"outline"}
-                rightIcon={<IconChevronDownRight />}
-                size={"sm"}
-                fontWeight={"normal"}
+                w={"full"}
               >
                 {programmes[0].tag}
               </MenuButton>
@@ -149,7 +118,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
               <MenuItem key={idx} _focus={{}}>
                 <HStack>
                   <Box>
-                    <ReactCountryFlag countryCode={tag} svg />
+                    <ReactCountryFlag countryCode={tag} />
                   </Box>
                   <Box>{name}</Box>
                 </HStack>
@@ -162,8 +131,9 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
               <MenuButton
                 as={Button}
                 variant={"outline"}
-                rightIcon={<IconChevronDownRight />}
+                rightIcon={<IconChevronDown />}
                 size={"sm"}
+                w={"full"}
               >
                 {countries[0]}
               </MenuButton>
@@ -173,11 +143,31 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         },
       },
       {
-        id: "updated_at",
-        accessorKey: "updated_at",
-        header: "Updated",
+        id: "organizations",
+        accessorKey: "metadata.organizations",
+        header: "Organizations",
         cell: function render({ getValue }) {
-          return <DateField value={getValue<any>()} />;
+          const organizations = getValue<any>();
+
+          return (
+            <Menu>
+              <MenuButton
+                as={Button}
+                variant={"outline"}
+                rightIcon={<IconChevronDown />}
+                size={"sm"}
+                fontWeight={"normal"}
+                w={"full"}
+              >
+                {organizations[0].name}
+              </MenuButton>
+              <MenuList overflow={"hidden"}>
+                {organizations.map((organization: any, idx: number) => (
+                  <MenuItem key={idx}>{organization.name}</MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+          );
         },
       },
       {
@@ -248,7 +238,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
             marginRight={"20px"}
             marginTop="20px"
           >
-            <Text fontSize="xl" color={textColor} fontWeight="bold">
+            <Text fontSize="xx-large" color={textColor} fontWeight="bold">
               Application Users
             </Text>
             <CreateButton />
@@ -286,6 +276,11 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
               ))}
             </Tbody>
           </Table>
+          <Pagination
+            current={current}
+            pageCount={pageCount}
+            setCurrent={setCurrent}
+          />
         </CardBody>
       </Card>
     </Flex>

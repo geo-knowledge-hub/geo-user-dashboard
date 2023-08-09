@@ -20,3 +20,38 @@ interface ManagerApiResponse {
     };
   };
 }
+
+interface UserCountry {
+  id: number;
+  tag: string;
+  name: string;
+}
+
+interface UserOrganization {
+  id: number;
+  name: string;
+}
+
+interface UserPackage {
+  id: string;
+  name: string;
+}
+
+interface UserProgramme {
+  id: string;
+  tag: string;
+  name: string;
+}
+
+interface ApplicationUser {
+  id: number;
+  name: string;
+  email: string;
+  usage_date: string;
+  metadata: {
+    countries: UserCountry[];
+    organizations: UserOrganization[];
+    packages: UserPackage[];
+    programmes: UserProgramme[];
+  };
+}
