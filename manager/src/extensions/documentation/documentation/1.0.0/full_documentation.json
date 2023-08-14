@@ -14,7 +14,7 @@
       "email": "secretariat@geosec.org",
       "url": "https://www.earthobservations.org/index.php"
     },
-    "x-generation-date": "2023-08-09T18:09:43.429Z"
+    "x-generation-date": "2023-08-14T23:43:38.019Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -956,6 +956,23 @@
                           "format": "date"
                         },
                         "metadata": {},
+                        "story": {
+                          "type": "object",
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "number"
+                                },
+                                "attributes": {
+                                  "type": "object",
+                                  "properties": {}
+                                }
+                              }
+                            }
+                          }
+                        },
                         "createdAt": {
                           "type": "string",
                           "format": "date-time"
@@ -2040,7 +2057,18 @@
                 "type": "string",
                 "format": "date"
               },
-              "metadata": {}
+              "metadata": {},
+              "story": {
+                "oneOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "example": "string or id"
+              }
             }
           }
         }
@@ -2647,6 +2675,23 @@
                                                     "format": "date"
                                                   },
                                                   "metadata": {},
+                                                  "story": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "data": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "id": {
+                                                            "type": "number"
+                                                          },
+                                                          "attributes": {
+                                                            "type": "object",
+                                                            "properties": {}
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
                                                   "createdAt": {
                                                     "type": "string",
                                                     "format": "date-time"
@@ -2906,6 +2951,23 @@
             "format": "date"
           },
           "metadata": {},
+          "story": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "attributes": {
+                    "type": "object",
+                    "properties": {}
+                  }
+                }
+              }
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -4946,6 +5008,23 @@
                                                     "format": "date"
                                                   },
                                                   "metadata": {},
+                                                  "story": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "data": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "id": {
+                                                            "type": "number"
+                                                          },
+                                                          "attributes": {
+                                                            "type": "object",
+                                                            "properties": {}
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
                                                   "createdAt": {
                                                     "type": "string",
                                                     "format": "date-time"
@@ -5920,6 +5999,23 @@
                                                     "format": "date"
                                                   },
                                                   "metadata": {},
+                                                  "story": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                      "data": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                          "id": {
+                                                            "type": "number"
+                                                          },
+                                                          "attributes": {
+                                                            "type": "object",
+                                                            "properties": {}
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  },
                                                   "createdAt": {
                                                     "type": "string",
                                                     "format": "date-time"

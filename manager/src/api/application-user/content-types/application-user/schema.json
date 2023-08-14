@@ -33,6 +33,12 @@
     "metadata": {
       "type": "json",
       "required": true
+    },
+    "story": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::story.story",
+      "inversedBy": "application_users"
     }
   }
 }

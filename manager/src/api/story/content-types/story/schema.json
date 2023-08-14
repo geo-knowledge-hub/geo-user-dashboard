@@ -18,7 +18,8 @@
     },
     "description": {
       "type": "richtext",
-      "minLength": 150
+      "minLength": 20,
+      "maxLength": 350
     },
     "experiences": {
       "type": "richtext",
@@ -34,7 +35,8 @@
     "application_users": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::application-user.application-user"
+      "target": "api::application-user.application-user",
+      "mappedBy": "story"
     }
   }
 }
