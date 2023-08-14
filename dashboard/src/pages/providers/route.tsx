@@ -15,6 +15,9 @@ import { ResourceProps } from "@refinedev/core";
 const buildResourcePath = (path: string) =>
   `${ProviderRouterConfig.base.path}/${path}`;
 
+/**
+ * Router configurations for the ``Knowledge Provider`` entity.
+ */
 export const ProviderRouterConfig = {
   name: "knowledge-providers",
   base: {
@@ -35,6 +38,9 @@ export const ProviderRouterConfig = {
   },
 };
 
+/**
+ * Resource configuration for the ``Knowledge Provider`` entity.
+ */
 export const ProviderRouteResource: ResourceProps = {
   name: ProviderRouterConfig.name,
   list: ProviderRouterConfig.base.path,

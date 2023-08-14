@@ -8,6 +8,9 @@
 
 import { z } from "zod";
 
+/**
+ * Knowledge Provider Schema.
+ */
 export const KnowledgeProviderSchema = z.object({
   name: z.string().nonempty().min(1),
   email: z.string().email().nonempty("E-mail must be defined"),
@@ -38,3 +41,8 @@ export const KnowledgeProviderSchema = z.object({
       .nonempty(),
   }),
 });
+
+/**
+ * Knowledge Provider type.
+ */
+export type KnowledgeProviderType = z.infer<typeof KnowledgeProviderSchema>;

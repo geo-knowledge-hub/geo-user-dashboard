@@ -40,7 +40,7 @@ import {
   IconSearch,
 } from "@tabler/icons";
 
-import { RecordApi } from "../../../resources/gkhub";
+import { searchPackages } from "../../../../resources/gkhub";
 
 //
 // Constants
@@ -48,9 +48,8 @@ import { RecordApi } from "../../../resources/gkhub";
 const PAGINATION_SIZES = [5, 10, 15];
 
 //
-// Data Types and Interfaces
+// Types
 //
-
 interface PackageSelectorProps {
   title: string;
   isOpen: boolean;
@@ -80,36 +79,31 @@ interface PaginationProps {
   onChange: (page: number) => void;
 }
 
-interface QueryObject {
-  q: string;
-  page: number;
-  size: number;
-}
-
-//
-// Auxiliary functions
-//
-const readHubData = async (query: QueryObject): Promise<HubApiResponse> => {
-  const packagesApiClient = new RecordApi<HubApiResponse>("records");
-
-  return packagesApiClient
-    .search(query)
-    .then((response) => response.data as HubApiResponse);
-};
-
 //
 // Components
 //
+
+/**
+ * Package Item component.
+ * @param data {string} Knowledge Package data.
+ * @param alreadyAdded {boolean} Flag indicating if the package was already added in the form.
+ * @param handleSelection {function} Function to handle the ``select package`` operation.
+ * @param handleDeletion {function} Function to handle the ``delete package`` operation.
+ */
 const PackageItem = ({
   data,
   alreadyAdded,
   handleSelection,
   handleDeletion,
 }: PackageItemProps) => {
-  // States
+  /**
+   * States.
+   */
   const [isSelected, setIsSelected] = useState(false);
 
-  // Preparing data to render
+  /**
+   * Preparing data to render.
+   */
   const packageStatus = _upperFirst(data.status);
 
   const packageCreators = data.metadata.creators
@@ -182,6 +176,10 @@ const PackageItem = ({
   );
 };
 
+/**
+ * Pagination: Size selector component
+ * @param onChange {function} Function to change the size of pagination.
+ */
 const SizeSelector = ({ onChange }: SizeSelectorProps) => {
   return (
     <Select size={"xs"} onChange={(e) => onChange(Number(e.target.value))}>
@@ -194,6 +192,15 @@ const SizeSelector = ({ onChange }: SizeSelectorProps) => {
   );
 };
 
+/**
+ * Pagination: Page selector.
+ * @param currentPage {number} Current pagination page.
+ * @param totalRecords {number} Total number of pages.
+ * @param size {number} Size of the pagination page.
+ * @param hasPrevious {boolean} Flag indicating if pages before ``currentPage`` are available.
+ * @param hasNext {boolean} Flag indicating if pages after ``currentPage`` are available.
+ * @param onChange {function} Function to handle page modifications.
+ */
 const PaginationSelector = ({
   currentPage,
   totalRecords,
@@ -202,7 +209,9 @@ const PaginationSelector = ({
   hasNext,
   onChange,
 }: PaginationProps) => {
-  // Validation
+  /**
+   * Validation.
+   */
   if (
     [currentPage, totalRecords, size, hasPrevious, hasNext].some(
       (el) => el === undefined || el === null,
@@ -211,7 +220,9 @@ const PaginationSelector = ({
     return null;
   }
 
-  // Configurations
+  /**
+   * Configurations.
+   */
   const maxItems = 3; // number of pagination options
   const maxLeft = 1; // number of options on the left
 
@@ -220,7 +231,9 @@ const PaginationSelector = ({
 
   const optionsAvailable = numberOfPages - currentPage; // control pagination visibility
 
-  // Auxiliary functions
+  /**
+   * Auxiliary functions.
+   */
   const onPageChange = (page: number) => {
     if (page <= 1) {
       onChange(1);
@@ -272,6 +285,14 @@ const PaginationSelector = ({
   );
 };
 
+/**
+ * Package modal selector component.
+ * @param title {string} Title of the modal selector.
+ * @param isOpen {boolean} Flag indicating if the modal selector is open.
+ * @param formPackages {KnowledgePackageRepresentation[]} Packages already available on the form.
+ * @param onClose {function} Function called when the modal is closed.
+ * @param handleAddition {function} Function to handle package selections.
+ */
 export const PackageSelector = ({
   title,
   isOpen,
@@ -279,28 +300,38 @@ export const PackageSelector = ({
   formPackages,
   handleAddition,
 }: PackageSelectorProps) => {
-  // Constants
+  /**
+   * Constants.
+   */
   const initialSize = PAGINATION_SIZES[0];
 
-  // States
+  /**
+   * States.
+   */
   const [textSearch, setTextSearch] = useState<string>("");
   const [selectedPackages, setSelectedPackages] = useState<KnowledgePackage[]>(
     [],
   );
-  const [query, setQuery] = useState<QueryObject>({
+  const [query, setQuery] = useState<HubQueryObject>({
     page: 1,
     size: initialSize,
     q: "",
   });
 
-  // Toast
+  /**
+   * Toast.
+   */
   const toast = useToast();
 
-  // Fetching operation
-  const { data, isFetching } = useQuery<HubApiResponse>(
-    ["selector:packages", query],
+  /**
+   * Fetching operation.
+   */
+  const { data, isFetching } = useQuery<
+    HubApiResponse<KnowledgePackageApiDocument>
+  >(
+    ["field-packages-selector", query],
     () => {
-      return readHubData(query);
+      return searchPackages(query);
     },
     {
       staleTime: 1000 * 60, // 60 seconds
@@ -308,7 +339,9 @@ export const PackageSelector = ({
     },
   );
 
-  // Auxiliary functions
+  /**
+   * Auxiliary functions.
+   */
   const appendPackage = (pkg: KnowledgePackage) =>
     setSelectedPackages([...selectedPackages, pkg]);
 
@@ -319,7 +352,9 @@ export const PackageSelector = ({
   const updateQueryPage = (page: number) => setQuery({ ...query, page });
   const updateQuerySize = (size: number) => setQuery({ ...query, size });
 
-  // Prepare data to render
+  /**
+   * Prepare data to render.
+   */
   const dataLinks = data?.links;
   const dataRecords = data?.hits.hits;
   const dataNumberOfRecords = data !== undefined ? data.hits.total : 0;

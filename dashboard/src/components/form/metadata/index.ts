@@ -6,12 +6,7 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-export { DateField } from "./date";
-export { UsersField } from "./user";
-export { MarkdownTextField } from "./text";
-export {
-  CountriesField,
-  OrganizationsField,
-  ProgrammeField,
-  PackagesField,
-} from "./metadata";
+export { CountriesField } from "./countries";
+export { ProgrammeField } from "./programmes";
+export { OrganizationsField } from "./organizations";
+export { PackagesField } from "./packages";

@@ -6,21 +6,6 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-interface UserPayload {
-  id: number;
-  email: string;
-  confirmed: boolean;
-  createdAt: string;
-  updatedAt: string;
-  provider: string;
-  username: null | string;
-}
-
-interface CredentialResponse {
-  jwt: string;
-  user: UserPayload;
-}
-
 interface KnowledgePackage {
   id: string;
   status: string;
@@ -38,22 +23,5 @@ interface KnowledgePackage {
   links: {
     self: string;
     self_html: string;
-  };
-}
-
-interface KnowledgePackageRepresentation {
-  id: string;
-  name?: string;
-}
-
-interface HubApiResponse {
-  hits: {
-    hits: KnowledgePackage[];
-    total: number;
-  };
-  links: {
-    self: string;
-    next?: string;
-    prev?: string;
   };
 }

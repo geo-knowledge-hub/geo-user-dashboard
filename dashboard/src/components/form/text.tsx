@@ -6,14 +6,17 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-import { SingleDatepicker } from "chakra-dayzed-datepicker";
+import MDEditor from "@uiw/react-md-editor";
+import rehypeSanitize from "rehype-sanitize";
+
 import { useController, UseControllerProps } from "react-hook-form";
+
 import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 
 //
 // Types
 //
-interface DateFieldProps extends UseControllerProps {
+interface DescriptionProps extends UseControllerProps {
   label: string;
 }
 
@@ -22,20 +25,25 @@ interface DateFieldProps extends UseControllerProps {
 //
 
 /**
- * Date Field (With selector support)
- * @param name {string} Name of the field where the data will be stored (Requires ``React Hook Form`` storage). Supports
- *                      nested names (e.g., date)
+ * Markdown Field (With text preview support)
+ * @param name {string} Name of the field where the data will be stored (Requires ``React Hook Form`` storage)
+ *                      (e.g., description)
  * @param control {Control} ``React Hook Form`` control
  * @param rules {array} List of rules.
  * @param label {string} Name of the field in the page.
  */
-export const DateField = ({ name, label, control, rules }: DateFieldProps) => {
+export const MarkdownTextField = ({
+  name,
+  control,
+  rules,
+  label,
+}: DescriptionProps) => {
   const {
     field: { onChange, value },
     fieldState: { invalid, error },
   } = useController({
-    name,
     control,
+    name,
     rules,
   });
 
@@ -43,13 +51,13 @@ export const DateField = ({ name, label, control, rules }: DateFieldProps) => {
     <FormControl isInvalid={invalid}>
       <FormLabel>{label}</FormLabel>
 
-      <SingleDatepicker
-        name={name}
-        onDateChange={(date) => {
-          const newDate = date ? date.toISOString().split("T")[0] : date;
-          onChange(newDate);
+      <MDEditor
+        value={value}
+        onChange={onChange}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
         }}
-        date={value ? new Date(value) : value}
+        preview={"live"}
       />
 
       <FormErrorMessage>{error && error.message}</FormErrorMessage>

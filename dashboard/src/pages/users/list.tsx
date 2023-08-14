@@ -48,6 +48,9 @@ import ReactCountryFlag from "react-country-flag";
 
 import { ListPagination } from "../../components/list";
 
+/**
+ * List page for the ``Application User`` entity.
+ */
 export const UserListPage: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<ColumnDef<any>[]>(
     () => [
@@ -182,7 +185,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         },
       },
     ],
-    []
+    [],
   );
 
   const {
@@ -240,7 +243,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                       {!header.isPlaceholder &&
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                     </Th>
                   ))}
@@ -254,7 +257,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
                     <Td key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </Td>
                   ))}

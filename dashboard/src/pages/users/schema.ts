@@ -8,6 +8,9 @@
 
 import { z } from "zod";
 
+/**
+ * Application User schema.
+ */
 export const UserSchema = z.object({
   name: z.string().nonempty().min(1),
   email: z.string().email().nonempty("E-mail must be defined"),
@@ -47,3 +50,8 @@ export const UserSchema = z.object({
       .nonempty(),
   }),
 });
+
+/**
+ * Application User type.
+ */
+export type ApplicationUserType = z.infer<typeof UserSchema>;

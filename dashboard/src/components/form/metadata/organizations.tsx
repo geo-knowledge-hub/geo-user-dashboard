@@ -6,30 +6,29 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-import { Box } from "@chakra-ui/react";
-
 import { useQuery } from "react-query";
 import { MultiValue } from "chakra-react-select";
 import { UseControllerProps } from "react-hook-form";
 
-import { MultiSelectionFieldSimple } from "./base";
-import { generatePopulationFunction } from "./toolbox";
-import { suggestUsers } from "../../resources/manager";
+import { MultiSelectionFieldNested } from "../base";
+import { generatePopulationFunction } from "../toolbox";
+import { suggestOrganizations } from "../../../resources/gkhub";
 
 //
 // Types
 //
-interface UsersFieldProps extends UseControllerProps {
+interface OrganizationFieldProps extends UseControllerProps {
   label: string;
 }
 
 interface SerializerProps {
-  value: UserApiDocument | SerializerResult;
+  value: OrganizationApiDocument | SerializerResult;
 }
 
 interface SerializerResult {
-  id: number;
+  id: string;
   name: string;
+  tag: string;
 }
 
 interface DeserializerResult {
@@ -42,46 +41,47 @@ interface DeserializerResult {
 //
 
 /**
- * Users fields (Nested field)
+ * Organization fields (Nested field)
  * @param name {string} Name of the field where the data will be stored (Requires ``React Hook Form`` storage). Supports
- *                      nested names (e.g., users)
+ *                      nested names (e.g., metadata.organizations)
  * @param label {string} Name of the field in the page.
  * @param control {Control} ``React Hook Form`` control
  * @param rules {array} ``React Hook Form`` rules.
  */
-export const UsersField = ({
-  label,
+export const OrganizationsField = ({
   name,
+  label,
   control,
   rules,
-}: UsersFieldProps) => {
+}: OrganizationFieldProps) => {
   /**
    * Load initial data.
    */
   const { isLoading, data: initialOptions } = useQuery(
-    ["field-application-users"],
+    ["field-organizations"],
     () => {
-      return suggestUsers("").then((data) => {
-        return data.map((row: UserApiDocument) => ({
-          label: row.attributes.name,
+      return suggestOrganizations("").then((data) =>
+        data.map((row: OrganizationApiDocument) => ({
           value: row,
-        }));
-      });
+          label: row.name,
+        })),
+      );
     },
   );
 
   /**
    * Load options function for the ``React Select``.
    */
-  const loadOptionsFunction = generatePopulationFunction<UserApiDocument>(
-    (row: UserApiDocument) => {
-      return {
-        label: row.attributes.name,
-        value: row,
-      };
-    },
-    suggestUsers,
-  );
+  const loadOptionsFunction =
+    generatePopulationFunction<OrganizationApiDocument>(
+      (row: OrganizationApiDocument) => {
+        return {
+          label: row.name,
+          value: row,
+        };
+      },
+      suggestOrganizations,
+    );
 
   /**
    * Serializer (Api Rest Document -> React Hook Form)
@@ -89,14 +89,11 @@ export const UsersField = ({
   const serializer = (
     values: MultiValue<SerializerProps> | null,
   ): SerializerResult[] | null => {
-    console.log(values);
     return values !== null
       ? values.map((row) => ({
           id: row.value.id,
-          name:
-            "attributes" in row.value
-              ? row.value?.attributes.name
-              : row.value.name,
+          name: row.value.name,
+          tag: "acronym" in row.value ? row.value.acronym : row.value.tag,
         }))
       : null;
   };
@@ -116,18 +113,16 @@ export const UsersField = ({
   };
 
   return (
-    <Box mb={"3"}>
-      <MultiSelectionFieldSimple
-        name={name}
-        label={label}
-        control={control}
-        rules={rules}
-        isLoading={isLoading}
-        defaultOptions={initialOptions}
-        loadOptions={loadOptionsFunction}
-        serializer={serializer}
-        deserializer={deserializer}
-      />
-    </Box>
+    <MultiSelectionFieldNested
+      name={name}
+      label={label}
+      control={control}
+      rules={rules}
+      serializer={serializer}
+      deserializer={deserializer}
+      isLoading={isLoading}
+      defaultOptions={initialOptions}
+      loadOptions={loadOptionsFunction}
+    />
   );
 };

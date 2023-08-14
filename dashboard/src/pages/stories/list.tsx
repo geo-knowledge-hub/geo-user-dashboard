@@ -17,6 +17,7 @@ import {
   ShowButton,
   DeleteButton,
   CreateButton,
+  Header,
 } from "@refinedev/chakra-ui";
 
 import {
@@ -41,6 +42,7 @@ import {
   useColorModeValue,
   Avatar,
   ButtonGroup,
+  Heading,
 } from "@chakra-ui/react";
 
 import { IconChevronDown } from "@tabler/icons";
@@ -48,10 +50,9 @@ import ReactCountryFlag from "react-country-flag";
 
 import { ListPagination } from "../../components/list";
 
-/**
- * List page for the``Knowledge Provider`` entity.
- */
-export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
+import { StoryUserType } from "./schema";
+
+export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
   // Constants
   const textColor = useColorModeValue("gray.700", "white");
 
@@ -59,32 +60,21 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
   const columns = React.useMemo<ColumnDef<any>[]>(
     () => [
       {
-        header: "Name",
-        cell: function render({ row }) {
-          const name = row.original.name;
-          const email = row.original.email;
+        id: "title",
+        accessorKey: "title",
+        header: "Title",
+        cell: function render({ getValue }) {
+          const story_title = getValue<string>();
 
-          return (
-            <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-              <Avatar name={name} w="50px" borderRadius="12px" me="18px" />
-              <Flex direction="column">
-                <Text fontSize="md" color={textColor} fontWeight="bold">
-                  {name}
-                </Text>
-                <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                  <a href={`mailto:${email}`}>{email}</a>
-                </Text>
-              </Flex>
-            </Flex>
-          );
+          return <>{story_title}</>;
         },
       },
       {
-        id: "gwp",
-        accessorKey: "metadata.programmes",
-        header: "GEO Programme",
+        id: "user",
+        accessorKey: "application_users",
+        header: "User",
         cell: function render({ getValue }) {
-          const programmes = getValue<any>();
+          const application_users = getValue<StoryUserType[]>();
 
           return (
             <Menu>
@@ -96,78 +86,11 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
                 fontWeight={"normal"}
                 w={"full"}
               >
-                {programmes[0].tag}
+                {application_users[0].name}
               </MenuButton>
               <MenuList>
-                {programmes.map((programme: any, idx: number) => (
-                  <MenuItem key={idx}>{programme.name}</MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
-          );
-        },
-      },
-      {
-        id: "countries",
-        accessorKey: "metadata.countries",
-        header: "Countries",
-        cell: function render({ getValue }) {
-          const countriesData = getValue<any>();
-
-          const countries = countriesData.map((country: any, idx: number) => {
-            const name = country.name;
-            const tag = country.tag.toUpperCase();
-
-            return (
-              <MenuItem key={idx} _focus={{}}>
-                <HStack>
-                  <Box>
-                    <ReactCountryFlag countryCode={tag} />
-                  </Box>
-                  <Box>{name}</Box>
-                </HStack>
-              </MenuItem>
-            );
-          });
-
-          return (
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant={"outline"}
-                rightIcon={<IconChevronDown />}
-                size={"sm"}
-                w={"full"}
-              >
-                {countries[0]}
-              </MenuButton>
-              <MenuList>{countries}</MenuList>
-            </Menu>
-          );
-        },
-      },
-      {
-        id: "organizations",
-        accessorKey: "metadata.organizations",
-        header: "Organizations",
-        cell: function render({ getValue }) {
-          const organizations = getValue<any>();
-
-          return (
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant={"outline"}
-                rightIcon={<IconChevronDown />}
-                size={"sm"}
-                fontWeight={"normal"}
-                w={"full"}
-              >
-                {organizations[0].name}
-              </MenuButton>
-              <MenuList overflow={"hidden"}>
-                {organizations.map((organization: any, idx: number) => (
-                  <MenuItem key={idx}>{organization.name}</MenuItem>
+                {application_users.map((user: StoryUserType, idx: number) => (
+                  <MenuItem key={idx}>{user.name}</MenuItem>
                 ))}
               </MenuList>
             </Menu>
@@ -189,7 +112,7 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
         },
       },
     ],
-    [],
+    []
   );
 
   const {
@@ -231,7 +154,7 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
             marginTop="20px"
           >
             <Text fontSize="xx-large" color={textColor} fontWeight="bold">
-              Knowledge Provider
+              Stories
             </Text>
             <CreateButton />
           </Flex>
@@ -246,7 +169,7 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
                       {!header.isPlaceholder &&
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )}
                     </Th>
                   ))}
@@ -260,7 +183,7 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
                     <Td key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </Td>
                   ))}

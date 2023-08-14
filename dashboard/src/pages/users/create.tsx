@@ -6,9 +6,10 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-import { IResourceComponentsProps } from "@refinedev/core";
+import React from "react";
 
 import { Create } from "@refinedev/chakra-ui";
+import { IResourceComponentsProps } from "@refinedev/core";
 
 import {
   FormControl,
@@ -18,8 +19,6 @@ import {
   Box,
   Container,
 } from "@chakra-ui/react";
-
-import { z } from "zod";
 
 import { useForm } from "@refinedev/react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,20 +31,14 @@ import {
   PackagesField,
 } from "../../components/form";
 
-import { UserSchema } from "./schema";
-
-//
-// Data types
-//
-type UserApplicationType = z.infer<typeof UserSchema>;
+import { UserSchema, ApplicationUserType } from "./schema";
 
 //
 // Components
 //
 
 /**
- * User creation page component
- * @returns React.FC
+ * Creation page for ``Application User`` entity.
  */
 export const UserCreatePage: React.FC<IResourceComponentsProps> = () => {
   // Data
@@ -55,7 +48,7 @@ export const UserCreatePage: React.FC<IResourceComponentsProps> = () => {
     saveButtonProps,
     register,
     formState: { errors },
-  } = useForm<UserApplicationType>({
+  } = useForm<ApplicationUserType>({
     resolver: zodResolver(UserSchema),
   });
 
@@ -100,47 +93,38 @@ export const UserCreatePage: React.FC<IResourceComponentsProps> = () => {
               name="usage_date"
               label="Application usage date"
               control={control}
-              rules={[]}
             />
           </Box>
 
           <Box mb={"3"}>
             <CountriesField
-              from="metadata"
-              field="countries"
+              name="metadata.countries"
               label="Country"
               control={control}
-              rules={[]}
             />
           </Box>
 
           <Box mb={"3"}>
             <OrganizationsField
-              from="metadata"
-              field="organizations"
+              name="metadata.organizations"
               label="Organizations"
               control={control}
-              rules={[]}
             />
           </Box>
 
           <Box mb={"3"}>
             <ProgrammeField
-              from="metadata"
-              field="programmes"
+              name="metadata.programmes"
               label="GEO Work Programme activities"
               control={control}
-              rules={[]}
             />
           </Box>
 
           <Box mb={"3"}>
             <PackagesField
-              from="metadata"
-              field="packages"
+              name={"metadata.packages"}
               label={"Knowledge Packages"}
               control={control}
-              error={errors?.metadata?.packages}
             />
           </Box>
         </Box>

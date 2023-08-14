@@ -8,17 +8,25 @@
 
 import urlcat from "urlcat";
 
-import { GKHUB_API_URL } from "../constants";
-
-import { axiosInstance } from "../network";
 import { AxiosInstance } from "axios";
-import { BaseApiClient } from "./base";
 
-export class VocabulariesApi<T> extends BaseApiClient<T> {
+import { BaseApiClient } from "../base";
+import { axiosInstance } from "../../network";
+
+import { GKHUB_API_URL } from "../../constants";
+
+/**
+ * Client for the GEO Knowledge Hub Vocabularies API.
+ */
+export class VocabulariesApiClient<T> extends BaseApiClient<T> {
   constructor(apiPrefix: string, httpClient: AxiosInstance = axiosInstance) {
     super(GKHUB_API_URL, apiPrefix, httpClient);
   }
 
+  /**
+   * Suggest values based on user input.
+   * @param suggestText {string} Base text to generate the suggestions.
+   */
   async suggest(suggestText: string): Promise<ApiClientResponse<T>> {
     const operationUrl = urlcat(this.apiUrl, {
       suggest: suggestText,
@@ -28,18 +36,27 @@ export class VocabulariesApi<T> extends BaseApiClient<T> {
   }
 }
 
-export class RecordApi<T> extends BaseApiClient<T> {
+/**
+ * Client for the GEO Knowledge Hub Records API.
+ *
+ * @note This client can be used to interact with Records and Packages APIs.
+ */
+export class RecordApiClient<T> extends BaseApiClient<T> {
   constructor(apiPrefix: string, httpClient: AxiosInstance = axiosInstance) {
     super(GKHUB_API_URL, apiPrefix, httpClient);
   }
 
+  /**
+   * Search records based on user input.
+   * @param searchArgs {object} Search criteria including ``q`` (query text), ``page``,
+   *                            and ``size`` (page size).
+   */
   async search(searchArgs: {
     q?: string;
     page?: number;
     size?: number;
   }): Promise<ApiClientResponse<T>> {
     const operationUrl = urlcat(this.apiUrl, searchArgs);
-
     return this.createResponse(() => this.httpClient.get(operationUrl));
   }
 }

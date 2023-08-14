@@ -31,6 +31,7 @@ import { DashboardTheme } from "./theme";
 
 import { UserRouteConfig, UserRouteResource } from "./pages/users";
 import { ProviderRouterConfig, ProviderRouteResource } from "./pages/providers";
+import { StoryRouterConfig, StoryRouteResource } from "./pages/stories";
 
 import { Header } from "./components/header";
 
@@ -69,7 +70,11 @@ export const Dashboard = () => {
         dataProvider={DataProvider(ProviderRestAPI, axiosInstance)}
         notificationProvider={notificationProvider}
         routerProvider={routerBindings}
-        resources={[UserRouteResource, ProviderRouteResource]}
+        resources={[
+          UserRouteResource,
+          ProviderRouteResource,
+          StoryRouteResource,
+        ]}
         options={{
           syncWithLocation: true,
           warnWhenUnsavedChanges: true,
@@ -131,6 +136,23 @@ export const Dashboard = () => {
                 element={ProviderRouterConfig.show.component}
               />
             </Route>
+
+            <Route path={StoryRouterConfig.base.path}>
+              <Route index element={StoryRouterConfig.base.component} />
+              <Route
+                path={StoryRouterConfig.create.path}
+                element={StoryRouterConfig.create.component}
+              />
+              <Route
+                path={StoryRouterConfig.edit.path}
+                element={StoryRouterConfig.edit.component}
+              />
+              <Route
+                path={StoryRouterConfig.show.path}
+                element={StoryRouterConfig.show.component}
+              />
+            </Route>
+
             <Route path="*" element={<ErrorComponent />} />
           </Route>
           <Route

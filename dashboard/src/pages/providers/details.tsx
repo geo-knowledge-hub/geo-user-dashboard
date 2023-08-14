@@ -6,13 +6,15 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
+import React from "react";
+
 import { useShow, IResourceComponentsProps } from "@refinedev/core";
 import { Show } from "@refinedev/chakra-ui";
+
 import {
   Box,
   Container,
   Divider,
-  Flex,
   Heading,
   Link,
   SimpleGrid,
@@ -20,8 +22,6 @@ import {
   useBreakpointValue,
   VStack,
 } from "@chakra-ui/react";
-
-import _truncate from "lodash/truncate";
 
 import {
   CountryCard,
@@ -33,6 +33,9 @@ import {
 // Components
 //
 
+/**
+ * Details page for the ``Knowledge Provider`` entity.
+ */
 export const ProviderDetailsPage: React.FC<IResourceComponentsProps> = () => {
   // Hooks
   const columnCount = useBreakpointValue({ base: 1, md: 2, lg: 3 });

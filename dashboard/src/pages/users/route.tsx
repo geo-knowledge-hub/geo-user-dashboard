@@ -15,6 +15,9 @@ import { ResourceProps } from "@refinedev/core";
 const buildResourcePath = (path: string) =>
   `${UserRouteConfig.base.path}/${path}`;
 
+/**
+ * Router configurations for the ``Application User`` entity.
+ */
 export const UserRouteConfig = {
   name: "application-users",
   base: {
@@ -35,6 +38,9 @@ export const UserRouteConfig = {
   },
 };
 
+/**
+ * Resource configuration for the ``Application User`` entity.
+ */
 export const UserRouteResource: ResourceProps = {
   name: UserRouteConfig.name,
   list: UserRouteConfig.base.path,

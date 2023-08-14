@@ -6,12 +6,17 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-export { DateField } from "./date";
-export { UsersField } from "./user";
-export { MarkdownTextField } from "./text";
-export {
-  CountriesField,
-  OrganizationsField,
-  ProgrammeField,
-  PackagesField,
-} from "./metadata";
+interface UserPayload {
+  id: number;
+  email: string;
+  confirmed: boolean;
+  createdAt: string;
+  updatedAt: string;
+  provider: string;
+  username: null | string;
+}
+
+interface CredentialResponse {
+  jwt: string;
+  user: UserPayload;
+}

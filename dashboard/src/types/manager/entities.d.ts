@@ -6,21 +6,6 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-interface ManagerApiResponse {
-  data: {
-    id: number;
-    attributes: object;
-  }[];
-  meta: {
-    pagination: {
-      page: number;
-      pageSize: number;
-      pageCount: number;
-      total: number;
-    };
-  };
-}
-
 interface UserCountry {
   id: number;
   tag: string;
@@ -65,4 +50,13 @@ interface ProviderUser {
     organizations: UserOrganization[];
     programmes: UserProgramme[];
   };
+}
+
+interface Story {
+  id: number;
+  title: string;
+  description: string;
+  experiences: string;
+  application_users: ApplicationUser[];
+  createdAt: string;
 }

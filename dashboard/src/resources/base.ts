@@ -7,12 +7,23 @@
  */
 
 import { join } from "urlcat";
-
-import { axiosInstance } from "../network";
 import { AxiosInstance, AxiosResponse } from "axios";
 
+import { axiosInstance } from "../network";
+
+
+/**
+ * Base class for API Clients.
+ */
 export class BaseApiClient<T> {
+  /**
+   * API URL.
+   */
   apiUrl: string;
+
+  /**
+   * Client HTTP (e.g., Axios Instance).
+   */
   httpClient: AxiosInstance;
 
   constructor(

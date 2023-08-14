@@ -23,22 +23,17 @@ import {
 import { useForm } from "@refinedev/react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  CountriesField,
-  OrganizationsField,
-  ProgrammeField,
-} from "../../components/form";
-
-import { KnowledgeProviderSchema, KnowledgeProviderType } from "./schema";
+import { StorySchema, StoryType } from "./schema";
+import { UsersField, MarkdownTextField } from "../../components/form";
 
 //
 // Components
 //
 
 /**
- * Creation page for the ``Knowledge Provider`` entity.
+ * Creation page for Story entity.
  */
-export const ProviderCreatePage: React.FC<IResourceComponentsProps> = () => {
+export const StoryCreatePage: React.FC<IResourceComponentsProps> = () => {
   /**
    * Prepare form
    */
@@ -48,11 +43,9 @@ export const ProviderCreatePage: React.FC<IResourceComponentsProps> = () => {
     saveButtonProps,
     register,
     formState: { errors },
-  } = useForm<KnowledgeProviderType>({
-    resolver: zodResolver(KnowledgeProviderSchema),
+  } = useForm<StoryType>({
+    resolver: zodResolver(StorySchema),
   });
-
-  console.log(errors);
 
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
@@ -64,53 +57,40 @@ export const ProviderCreatePage: React.FC<IResourceComponentsProps> = () => {
           borderRadius="lg"
           boxShadow={"md"}
         >
-          <FormControl mb={"3"} isInvalid={!!errors?.name}>
-            <FormLabel>Name</FormLabel>
-            <Input
-              type="text"
-              {...register("name", {
-                required: "This field is required",
-              })}
+          <Box mb={"3"}>
+            <UsersField
+              name={"application_users"}
+              label="Associated Users"
+              control={control}
             />
-            <FormErrorMessage>
-              {(errors as any)?.name?.message as string}
-            </FormErrorMessage>
-          </FormControl>
+          </Box>
 
           <FormControl mb="3" isInvalid={!!(errors as any)?.email}>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>Title</FormLabel>
             <Input
-              type="email"
-              {...register("email", {
+              type="title"
+              {...register("title", {
                 required: "This field is required",
               })}
             />
             <FormErrorMessage>
-              {(errors as any)?.email?.message as string}
+              {(errors as any)?.title?.message as string}
             </FormErrorMessage>
           </FormControl>
 
           <Box mb={"3"}>
-            <CountriesField
-              name={"metadata.countries"}
-              label="Country"
+            <MarkdownTextField
               control={control}
+              name={"description"}
+              label={"Description"}
             />
           </Box>
 
           <Box mb={"3"}>
-            <OrganizationsField
-              name={"metadata.organizations"}
-              label="Organizations"
+            <MarkdownTextField
               control={control}
-            />
-          </Box>
-
-          <Box mb={"3"}>
-            <ProgrammeField
-              name={"metadata.programmes"}
-              label="GEO Work Programme activities"
-              control={control}
+              name={"experiences"}
+              label={"Experiences"}
             />
           </Box>
         </Box>

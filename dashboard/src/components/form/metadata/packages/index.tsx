@@ -17,53 +17,48 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-
-import {
-  Control,
-  FieldError,
-  UseFieldArrayProps,
-  useController,
-} from "react-hook-form";
-
 import { IconPlus, IconTrash } from "@tabler/icons";
+
+import { useController, UseControllerProps } from "react-hook-form";
 
 import { PackageSelector } from "./selector";
 
 //
-// Data Types and Interfaces
+// Types
 //
-interface PackageFieldProps {
-  control: Control<KnowledgePackage>;
-  from: string;
-  field: string;
+interface PackageFieldProps extends UseControllerProps {
   label: string;
-  rules?: UseFieldArrayProps<KnowledgePackage>["rules"];
-  error: FieldError;
+}
+
+interface PackageForm {
+  id: string;
+  name?: string;
+  metadata?: {
+    title: string;
+  };
 }
 
 //
 // Components
 //
+
+/**
+ * Knowledge Package field (Nested field)
+ * @param name {string} Name of the field where the data will be stored (Requires ``React Hook Form`` storage). Supports
+ *                      nested names (e.g., metadata.packages)
+ * @param label {string} Name of the field in the page.
+ * @param control {Control} ``React Hook Form`` control
+ * @param rules {array} ``React Hook Form`` rules.
+ */
 export const PackagesField = ({
-  control,
-  from,
-  field,
+  name,
   label,
+  control,
   rules,
 }: PackageFieldProps) => {
-  // States
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const {
-    field: { onChange, onBlur, value, ref },
-    fieldState: { invalid, error },
-  } = useController({
-    name: from,
-    control,
-    rules,
-  });
-
-  // Auxiliary functions
+  /**
+   * Field functions.
+   */
   const addNestedKey = (data: any) => ({ [field]: data });
 
   const getFromNestedKey = (data: any) => {
@@ -72,42 +67,76 @@ export const PackagesField = ({
     return nestedValue !== undefined ? nestedValue : [];
   };
 
+  /**
+   * Extracting nested values.
+   */
+  const [from, field] = name.split(".");
+
+  /**
+   * States.
+   */
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  /**
+   * Preparing field.
+   */
+  const {
+    field: { onChange, value },
+    fieldState: { error },
+  } = useController({
+    name: from,
+    control,
+    rules,
+  });
+
+  /**
+   * Function to append packages in the field.
+   */
   const append = (data: KnowledgePackageRepresentation) => {
     const currentValue = getFromNestedKey(value);
     const newValue = [...currentValue, data];
 
-    // @ts-ignore
     onChange({ ...value, ...addNestedKey(newValue) });
   };
 
+  /**
+   * Function to remove packages from the field.
+   */
   const remove = (data: KnowledgePackageRepresentation) => {
     const currentValue = getFromNestedKey(value);
     const newValue = currentValue.filter(
       (row: KnowledgePackage) => row.id !== data.id,
     );
 
-    // @ts-ignore
     onChange({ ...value, ...addNestedKey(newValue) });
   };
 
-  // Auxiliary functions
+  /**
+   * Wrapper of the ``append`` operation.
+   */
   const handleMultipleAdditions = (
     packages: KnowledgePackage[] | KnowledgePackageRepresentation[],
   ) => {
-    packages.forEach(({ id, name, metadata }) => {
+    packages.forEach(({ id, name, metadata }: PackageForm) => {
       append({
         id,
-        name: name || metadata.title,
+        name: name || metadata?.title,
       });
     });
   };
 
+  /**
+   * Wrapper of the ``remove`` operation.
+   */
   const handleDeletion = (
     pkg: KnowledgePackage | KnowledgePackageRepresentation,
   ) => {
     remove(pkg);
   };
 
+  /**
+   * Available data.
+   */
   const fields: KnowledgePackageRepresentation[] = getFromNestedKey(value);
 
   return (

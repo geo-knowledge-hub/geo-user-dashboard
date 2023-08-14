@@ -7,8 +7,10 @@
  */
 
 import React from "react";
-import { IResourceComponentsProps } from "@refinedev/core";
+
 import { Edit } from "@refinedev/chakra-ui";
+import { IResourceComponentsProps } from "@refinedev/core";
+
 import {
   FormControl,
   FormLabel,
@@ -18,7 +20,6 @@ import {
   Container,
 } from "@chakra-ui/react";
 
-import { z } from "zod";
 import { useForm } from "@refinedev/react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -28,17 +29,15 @@ import {
   ProgrammeField,
 } from "../../components/form";
 
-import { KnowledgeProviderSchema } from "./schema";
-
-//
-// Data types
-//
-type KnowledgeProviderType = z.infer<typeof KnowledgeProviderSchema>;
+import { KnowledgeProviderSchema, KnowledgeProviderType } from "./schema";
 
 //
 // Components
 //
 
+/**
+ * Edit page for the ``Knowledge Provider`` entity.
+ */
 export const ProviderEditPage: React.FC<IResourceComponentsProps> = () => {
   // Form
   const {
@@ -104,31 +103,25 @@ export const ProviderEditPage: React.FC<IResourceComponentsProps> = () => {
 
           <Box mb={"3"}>
             <CountriesField
-              from="metadata"
-              field="countries"
+              name={"metadata.countries"}
               label="Country"
               control={control}
-              rules={[]}
             />
           </Box>
 
           <Box mb={"3"}>
             <OrganizationsField
-              from="metadata"
-              field="organizations"
+              name={"metadata.organizations"}
               label="Organizations"
               control={control}
-              rules={[]}
             />
           </Box>
 
           <Box mb={"3"}>
             <ProgrammeField
-              from="metadata"
-              field="programmes"
+              name={"metadata.programmes"}
               label="GEO Work Programme activities"
               control={control}
-              rules={[]}
             />
           </Box>
         </Box>

@@ -7,7 +7,7 @@
  */
 
 import {
-  API_URL,
+  MANAGER_API_URL,
   AUTH_PROVIDER_CALLBACK_URL,
   AUTH_PROVIDER_CONNECT_URL,
   AUTH_PROVIDER_NAME,
@@ -29,4 +29,4 @@ export const AuthConfig = {
 /**
  * (Data Provider) Rest API Configuration
  */
-export const ProviderRestAPI = `${API_URL}/api`;
+export const ProviderRestAPI = `${MANAGER_API_URL}/api`;
