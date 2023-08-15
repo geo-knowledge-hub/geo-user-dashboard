@@ -41,6 +41,15 @@ module.exports = yup.object({
           })
         )
         .required(),
+      packages: yup
+        .array()
+        .of(
+          yup.object({
+            id: yup.string().required(),
+            name: yup.string().required(),
+          })
+        )
+        .required(),
     })
     .required(),
 });

@@ -34,9 +34,9 @@
       "type": "json",
       "required": true
     },
-    "story": {
+    "stories": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::story.story",
       "inversedBy": "application_users"
     }

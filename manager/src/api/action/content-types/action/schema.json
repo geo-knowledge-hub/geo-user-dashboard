@@ -4,7 +4,8 @@
   "info": {
     "singularName": "action",
     "pluralName": "actions",
-    "displayName": "Action"
+    "displayName": "Action",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -17,21 +18,21 @@
     },
     "description": {
       "type": "richtext",
-      "minLength": 150
+      "minLength": 20
     },
     "application_users": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::application-user.application-user"
     },
-    "statuses": {
+    "status": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "oneToOne",
       "target": "api::action-status.action-status"
     },
-    "types": {
+    "type": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "oneToOne",
       "target": "api::action-type.action-type"
     }
   }

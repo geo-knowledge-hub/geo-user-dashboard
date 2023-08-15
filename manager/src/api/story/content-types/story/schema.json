@@ -34,9 +34,9 @@
     },
     "application_users": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::application-user.application-user",
-      "mappedBy": "story"
+      "mappedBy": "stories"
     }
   }
 }
