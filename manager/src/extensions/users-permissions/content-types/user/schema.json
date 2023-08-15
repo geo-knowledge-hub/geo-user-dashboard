@@ -83,6 +83,12 @@
       "relation": "oneToMany",
       "target": "api::application-user.application-user",
       "mappedBy": "owner"
+    },
+    "actions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::action.action",
+      "mappedBy": "owner"
     }
   }
 }
