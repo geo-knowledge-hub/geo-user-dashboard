@@ -26,6 +26,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CountriesField,
   OrganizationsField,
+  PackagesField,
   ProgrammeField,
 } from "../../components/form";
 
@@ -121,6 +122,14 @@ export const ProviderEditPage: React.FC<IResourceComponentsProps> = () => {
             <ProgrammeField
               name={"metadata.programmes"}
               label="GEO Work Programme activities"
+              control={control}
+            />
+          </Box>
+
+          <Box mb={"3"}>
+            <PackagesField
+              name={"metadata.packages"}
+              label={"Knowledge Packages"}
               control={control}
             />
           </Box>

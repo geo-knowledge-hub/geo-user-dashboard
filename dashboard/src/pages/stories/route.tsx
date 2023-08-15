@@ -15,6 +15,9 @@ import { ResourceProps } from "@refinedev/core";
 const buildResourcePath = (path: string) =>
   `${StoryRouterConfig.base.path}/${path}`;
 
+/**
+ * Router configurations for the ``Story`` entity.
+ */
 export const StoryRouterConfig = {
   name: "stories",
   base: {
@@ -35,6 +38,9 @@ export const StoryRouterConfig = {
   },
 };
 
+/**
+ * Resource configuration for the ``Story`` entity.
+ */
 export const StoryRouteResource: ResourceProps = {
   name: StoryRouterConfig.name,
   list: StoryRouterConfig.base.path,

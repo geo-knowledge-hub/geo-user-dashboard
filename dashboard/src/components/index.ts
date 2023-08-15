@@ -6,5 +6,4 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-export { Hero } from "./hero";
-export { Header } from "./header";
+export {};

@@ -6,20 +6,23 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
+import React from "react";
+
 import { Refine, Authenticated } from "@refinedev/core";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import {
   AuthPage,
   ErrorComponent,
-  notificationProvider,
-  RefineThemes,
   ThemedLayoutV2,
+  notificationProvider,
 } from "@refinedev/chakra-ui";
 
+import { QueryClientProvider } from "react-query";
 import { DataProvider } from "@refinedev/strapi-v4";
 import { ChakraProvider, Heading } from "@chakra-ui/react";
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
+
 import routerBindings, {
   NavigateToResource,
   CatchAllNavigate,
@@ -29,22 +32,19 @@ import routerBindings, {
 
 import { DashboardTheme } from "./theme";
 
+import { queryClient } from "./query";
+import { axiosInstance } from "./network";
+import { ProviderRestAPI } from "./config";
+import { AuthProvider, AuthProviders, AuthLoginRedirect } from "./auth";
+
+import { Hero } from "./components/hero";
+import { Header } from "./components/header";
+import { Title } from "./components/title";
+
 import { UserRouteConfig, UserRouteResource } from "./pages/users";
 import { ProviderRouterConfig, ProviderRouteResource } from "./pages/providers";
 import { StoryRouterConfig, StoryRouteResource } from "./pages/stories";
-
-import { Header } from "./components/header";
-
-import { AuthProvider, AuthProviders, AuthLoginRedirect } from "./auth";
-
-import { axiosInstance } from "./network";
-import { ProviderRestAPI } from "./config";
-
-import { PROJECT_ID } from "./constants";
-import { Hero } from "./components";
-import { Title } from "./components/title";
-import { QueryClientProvider } from "react-query";
-import { queryClient } from "./query";
+import { ActionRouterConfig, ActionRouteResource } from "./pages/actions";
 
 interface WrapperProps {
   children: React.ReactNode;
@@ -62,6 +62,9 @@ const Wrapper = ({ children }: WrapperProps) => {
   );
 };
 
+/**
+ * Dashboard Application component.
+ */
 export const Dashboard = () => {
   return (
     <Wrapper>
@@ -74,11 +77,11 @@ export const Dashboard = () => {
           UserRouteResource,
           ProviderRouteResource,
           StoryRouteResource,
+          ActionRouteResource,
         ]}
         options={{
           syncWithLocation: true,
           warnWhenUnsavedChanges: true,
-          projectId: PROJECT_ID,
         }}
       >
         <Routes>
@@ -152,7 +155,21 @@ export const Dashboard = () => {
                 element={StoryRouterConfig.show.component}
               />
             </Route>
-
+            <Route path={ActionRouterConfig.base.path}>
+              <Route index element={ActionRouterConfig.base.component} />
+              <Route
+                path={ActionRouterConfig.create.path}
+                element={ActionRouterConfig.create.component}
+              />
+              <Route
+                path={ActionRouterConfig.edit.path}
+                element={ActionRouterConfig.edit.component}
+              />
+              <Route
+                path={ActionRouterConfig.show.path}
+                element={ActionRouterConfig.show.component}
+              />
+            </Route>
             <Route path="*" element={<ErrorComponent />} />
           </Route>
           <Route

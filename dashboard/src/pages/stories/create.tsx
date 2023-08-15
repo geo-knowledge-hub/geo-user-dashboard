@@ -31,7 +31,7 @@ import { UsersField, MarkdownTextField } from "../../components/form";
 //
 
 /**
- * Creation page for Story entity.
+ * Creation page for the ``Story`` entity.
  */
 export const StoryCreatePage: React.FC<IResourceComponentsProps> = () => {
   /**

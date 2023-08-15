@@ -18,6 +18,7 @@ import {
   DeleteButton,
   CreateButton,
 } from "@refinedev/chakra-ui";
+
 import {
   Table,
   Thead,
@@ -25,9 +26,7 @@ import {
   Th,
   Tbody,
   Td,
-  HStack,
   Button,
-  Box,
   MenuItem,
   Menu,
   MenuButton,
@@ -37,140 +36,93 @@ import {
   CardHeader,
   Text,
   CardBody,
-  useColorModeValue,
-  Avatar,
   ButtonGroup,
+  useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
 
 import { IconChevronDown } from "@tabler/icons";
 
-import ReactCountryFlag from "react-country-flag";
-
 import { ListPagination } from "../../components/list";
+import { ActionTag } from "../../components/details/action";
 import _truncate from "lodash/truncate";
 
-/**
- * List page for the ``Application User`` entity.
- */
 export const UserListPage: React.FC<IResourceComponentsProps> = () => {
+  // Constants
+  const textColor = useColorModeValue("gray.700", "white");
+
+  // Hooks
   const columns = React.useMemo<ColumnDef<any>[]>(
     () => [
       {
-        header: "Name",
-        cell: function render({ row }) {
-          const name = row.original.name;
-          const email = row.original.email;
+        id: "title",
+        accessorKey: "title",
+        header: "Title",
+        cell: function render({ getValue }) {
+          const storyTitle = getValue<string>();
+
+          return <Text>{storyTitle}</Text>;
+        },
+      },
+      {
+        id: "type",
+        accessorKey: "type",
+        header: "Type",
+        cell: function render({ getValue }) {
+          const actionType = getValue<ActionMetadata>();
 
           return (
-            <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-              <Avatar name={name} w="50px" borderRadius="12px" me="18px" />
-              <Flex direction="column">
-                <Text fontSize="md" color={textColor} fontWeight="bold">
-                  {name}
-                </Text>
-                <Text fontSize="sm" color="gray.400" fontWeight="normal">
-                  <a href={`mailto:${email}`}>{email}</a>
-                </Text>
-              </Flex>
-            </Flex>
+            <ActionTag text={actionType.name} colorScheme={actionType.color} />
           );
         },
       },
       {
-        id: "gwp",
-        accessorKey: "metadata.programmes",
-        header: "GEO Programme",
+        id: "status",
+        accessorKey: "status",
+        header: "Status",
         cell: function render({ getValue }) {
-          const programmes = getValue<any>();
+          const actionStatus = getValue<ActionMetadata>();
 
           return (
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant={"outline"}
-                rightIcon={<IconChevronDown />}
-                size={"sm"}
-                fontWeight={"normal"}
-                w={"full"}
-              >
-                {programmes[0].tag}
-              </MenuButton>
-              <MenuList>
-                {programmes.map((programme: any, idx: number) => (
-                  <MenuItem key={idx}>{programme.name}</MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
+            <ActionTag
+              text={actionStatus.name}
+              colorScheme={actionStatus.color}
+            />
           );
         },
       },
       {
-        id: "countries",
-        accessorKey: "metadata.countries",
-        header: "Countries",
+        id: "user",
+        accessorKey: "application_users",
+        header: "Users",
         cell: function render({ getValue }) {
-          const countriesData = getValue<any>();
-
-          const countries = countriesData.map((country: any, idx: number) => {
-            const name = country.name;
-            const tag = country.tag.toUpperCase();
-
-            return (
-              <MenuItem key={idx} _focus={{}}>
-                <HStack>
-                  <Box>
-                    <ReactCountryFlag countryCode={tag} />
-                  </Box>
-                  <Box>{name}</Box>
-                </HStack>
-              </MenuItem>
-            );
+          const applicationUsers = getValue<ApplicationUser[]>();
+          const firstUserName = _truncate(applicationUsers[0].name, {
+            length: 50,
           });
 
           return (
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant={"outline"}
-                rightIcon={<IconChevronDown />}
-                size={"sm"}
-                w={"full"}
-              >
-                {countries[0]}
-              </MenuButton>
-              <MenuList>{countries}</MenuList>
-            </Menu>
-          );
-        },
-      },
-      {
-        id: "organizations",
-        accessorKey: "metadata.organizations",
-        header: "Organizations",
-        cell: function render({ getValue }) {
-          const organizations = getValue<any>();
-          const firstOrganizationName = _truncate(organizations[0].name, {
-            length: 25,
-          });
-
-          return (
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant={"outline"}
-                rightIcon={<IconChevronDown />}
-                size={"sm"}
-                fontWeight={"normal"}
-                w={"full"}
-              >
-                {firstOrganizationName}
-              </MenuButton>
-              <MenuList overflow={"hidden"}>
-                {organizations.map((organization: any, idx: number) => (
-                  <MenuItem key={idx}>{organization.name}</MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
+            <Box maxWidth={"20em"}>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  variant={"outline"}
+                  rightIcon={<IconChevronDown />}
+                  size={"sm"}
+                  fontWeight={"normal"}
+                  w={"full"}
+                >
+                  <p>{firstUserName}</p>
+                </MenuButton>
+                <MenuList>
+                  {applicationUsers.map(
+                    (user: ApplicationUser, idx: number) => (
+                      <MenuItem key={idx}>{user.name}</MenuItem>
+                    ),
+                  )}
+                </MenuList>
+              </Menu>
+            </Box>
           );
         },
       },
@@ -211,14 +163,13 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
     },
   });
 
+  // Auxiliary functions
   setOptions((prev) => ({
     ...prev,
     meta: {
       ...prev.meta,
     },
   }));
-
-  const textColor = useColorModeValue("gray.700", "white");
 
   return (
     <Flex direction={"column"}>
@@ -232,13 +183,13 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
             marginTop="20px"
           >
             <Text fontSize="xx-large" color={textColor} fontWeight="bold">
-              Application Users
+              Actions
             </Text>
             <CreateButton />
           </Flex>
         </CardHeader>
         <CardBody overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }}>
-          <Table variant="simple" color={textColor}>
+          <Table variant="simple" color={textColor} size={"lg"}>
             <Thead>
               {getHeaderGroups().map((headerGroup) => (
                 <Tr key={headerGroup.id} my=".8rem" pl="0px" color="gray.400">
@@ -258,7 +209,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
               {getRowModel().rows.map((row) => (
                 <Tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <Td key={cell.id} maxWidth={"15em"}>
+                    <Td key={cell.id} maxWidth={"17em"}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

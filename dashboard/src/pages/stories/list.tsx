@@ -17,7 +17,6 @@ import {
   ShowButton,
   DeleteButton,
   CreateButton,
-  Header,
 } from "@refinedev/chakra-ui";
 
 import {
@@ -27,9 +26,7 @@ import {
   Th,
   Tbody,
   Td,
-  HStack,
   Button,
-  Box,
   MenuItem,
   Menu,
   MenuButton,
@@ -39,19 +36,20 @@ import {
   CardHeader,
   Text,
   CardBody,
-  useColorModeValue,
-  Avatar,
   ButtonGroup,
-  Heading,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { IconChevronDown } from "@tabler/icons";
-import ReactCountryFlag from "react-country-flag";
 
 import { ListPagination } from "../../components/list";
 
 import { StoryUserType } from "./schema";
+import _truncate from "lodash/truncate";
 
+/**
+ * List page for the ``Story`` entity.
+ */
 export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
   // Constants
   const textColor = useColorModeValue("gray.700", "white");
@@ -64,9 +62,9 @@ export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
         accessorKey: "title",
         header: "Title",
         cell: function render({ getValue }) {
-          const story_title = getValue<string>();
+          const storyTitle = getValue<string>();
 
-          return <>{story_title}</>;
+          return <>{storyTitle}</>;
         },
       },
       {
@@ -74,7 +72,10 @@ export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
         accessorKey: "application_users",
         header: "User",
         cell: function render({ getValue }) {
-          const application_users = getValue<StoryUserType[]>();
+          const applicationUsers = getValue<StoryUserType[]>();
+          const firstUserName = _truncate(applicationUsers[0].name, {
+            length: 50,
+          });
 
           return (
             <Menu>
@@ -86,15 +87,26 @@ export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
                 fontWeight={"normal"}
                 w={"full"}
               >
-                {application_users[0].name}
+                <p>{firstUserName}</p>
               </MenuButton>
               <MenuList>
-                {application_users.map((user: StoryUserType, idx: number) => (
+                {applicationUsers.map((user: StoryUserType, idx: number) => (
                   <MenuItem key={idx}>{user.name}</MenuItem>
                 ))}
               </MenuList>
             </Menu>
           );
+        },
+      },
+      {
+        id: "updatedAt",
+        accessorKey: "updatedAt",
+        header: "Last update",
+        cell: function render({ getValue }) {
+          const date = getValue<string>();
+          const storyLastUpdate = new Date(date).toDateString();
+
+          return <>{storyLastUpdate}</>;
         },
       },
       {
@@ -112,7 +124,7 @@ export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
         },
       },
     ],
-    []
+    [],
   );
 
   const {
@@ -169,7 +181,7 @@ export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
                       {!header.isPlaceholder &&
                         flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                     </Th>
                   ))}
@@ -180,10 +192,10 @@ export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
               {getRowModel().rows.map((row) => (
                 <Tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <Td key={cell.id}>
+                    <Td key={cell.id} maxWidth={"15em"}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </Td>
                   ))}

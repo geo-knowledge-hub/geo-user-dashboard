@@ -47,6 +47,7 @@ import { IconChevronDown } from "@tabler/icons";
 import ReactCountryFlag from "react-country-flag";
 
 import { ListPagination } from "../../components/list";
+import _truncate from "lodash/truncate";
 
 /**
  * List page for the``Knowledge Provider`` entity.
@@ -152,6 +153,9 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
         header: "Organizations",
         cell: function render({ getValue }) {
           const organizations = getValue<any>();
+          const firstOrganizationName = _truncate(organizations[0].name, {
+            length: 25,
+          });
 
           return (
             <Menu>
@@ -163,7 +167,7 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
                 fontWeight={"normal"}
                 w={"full"}
               >
-                {organizations[0].name}
+                {firstOrganizationName}
               </MenuButton>
               <MenuList overflow={"hidden"}>
                 {organizations.map((organization: any, idx: number) => (
@@ -257,7 +261,7 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
               {getRowModel().rows.map((row) => (
                 <Tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <Td key={cell.id}>
+                    <Td key={cell.id} maxWidth={"15em"}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

@@ -39,6 +39,13 @@ export const KnowledgeProviderSchema = z.object({
       })
       .array()
       .nonempty(),
+    packages: z
+      .object({
+        id: z.string().nonempty(),
+        name: z.string().nonempty(),
+      })
+      .array()
+      .nonempty(),
   }),
 });
 

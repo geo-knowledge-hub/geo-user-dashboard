@@ -11,14 +11,20 @@ import {
   Flex,
   HStack,
   Link,
+  Tag,
+  TagLabel,
+  TagLeftIcon,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+
+import { Link as DOMLink } from "react-router-dom";
 
 import _truncate from "lodash/truncate";
 
 import ReactCountryFlag from "react-country-flag";
 import { IconCalendar, IconExternalLink } from "@tabler/icons";
+import React from "react";
 
 //
 // Types
@@ -42,28 +48,26 @@ interface LinkCardProps {
 
 interface DateCardProps {
   date: string;
+  isToFormat: boolean;
 }
 
 /**
  * Date tag component.
  * @param date {string} date string.
+ * @param isToFormat {boolean} Flag indicating if the value must be formatted as `Date string`.
  */
-export const DateTag = ({ date }: DateCardProps) => {
-  const bgColor = useColorModeValue("gray.100", "gray.700");
-  const textColor = useColorModeValue("gray.700", "gray.200");
+export const DateTag = ({ date, isToFormat }: DateCardProps) => {
+  let newDate = date;
+
+  if (isToFormat) {
+    newDate = new Date(date).toDateString();
+  }
 
   return (
-    <HStack
-      bg={bgColor}
-      borderRadius="lg"
-      paddingX="2"
-      paddingY="1"
-      alignItems="center"
-      spacing={2}
-    >
-      <IconCalendar />
-      <Text color={textColor}>{date}</Text>
-    </HStack>
+    <Tag size={"lg"} colorScheme={"gray"}>
+      <TagLeftIcon as={IconCalendar} />
+      <TagLabel>{newDate}</TagLabel>
+    </Tag>
   );
 };
 
@@ -119,6 +123,7 @@ export const ProgrammeCard = ({ programme }: ProgrammeCardProps) => {
  * Link Card component.
  * @param name {string} Name of the link.
  * @param link {string} Link value.
+ * @param isExternal {boolean} Flag indicating if the link is external. Default value is `true`
  */
 export const LinkCard = ({ name, link }: LinkCardProps) => {
   const hoverBgColor = useColorModeValue("gray.100", "gray.700");
@@ -141,6 +146,40 @@ export const LinkCard = ({ name, link }: LinkCardProps) => {
         </Link>
 
         <Link href={link} isExternal>
+          <IconExternalLink />
+        </Link>
+      </HStack>
+    </Box>
+  );
+};
+
+/**
+ * Link Card component for internal routes.
+ * @param name {string} Name of the link.
+ * @param link {string} Link value.
+ * @param isExternal {boolean} Flag indicating if the link is external. Default value is `true`
+ */
+export const InternalLinkCard = ({ name, link }: LinkCardProps) => {
+  const hoverBgColor = useColorModeValue("gray.100", "gray.700");
+
+  const truncatedName = _truncate(name, { length: 80 });
+
+  return (
+    <Box
+      borderWidth="1px"
+      borderRadius="lg"
+      padding="4"
+      boxShadow="sm"
+      mb={4}
+      transition="background 0.2s"
+      _hover={{ background: hoverBgColor }}
+    >
+      <HStack spacing={2} align="center">
+        <Link as={DOMLink} to={link} flex={1} isTruncated>
+          <Text isTruncated>{truncatedName}</Text>
+        </Link>
+
+        <Link as={DOMLink} to={link}>
           <IconExternalLink />
         </Link>
       </HStack>

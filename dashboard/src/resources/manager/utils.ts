@@ -60,8 +60,8 @@ export const suggestUsers = (
  */
 export const suggestActionTypes = (
   suggestText: string,
-): Promise<CountryApiDocument[]> => {
-  return suggestEntity<CountryApiDocument>(
+): Promise<ActionApiMetadataDocument[]> => {
+  return suggestEntity<ActionApiMetadataDocument>(
     "api/action-types",
     "name",
     suggestText,
@@ -74,8 +74,8 @@ export const suggestActionTypes = (
  */
 export const suggestActionStatuses = (
   suggestText: string,
-): Promise<CountryApiDocument[]> => {
-  return suggestEntity<CountryApiDocument>(
+): Promise<ActionApiMetadataDocument[]> => {
+  return suggestEntity<ActionApiMetadataDocument>(
     "api/action-statuses",
     "name",
     suggestText,

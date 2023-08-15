@@ -6,6 +6,9 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
+/**
+ * Knowledge Package entity.
+ */
 interface KnowledgePackage {
   id: string;
   status: string;

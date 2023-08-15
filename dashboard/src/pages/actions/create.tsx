@@ -8,8 +8,8 @@
 
 import React from "react";
 
+import { Create } from "@refinedev/chakra-ui";
 import { IResourceComponentsProps } from "@refinedev/core";
-import { Edit } from "@refinedev/chakra-ui";
 
 import {
   FormControl,
@@ -18,41 +18,44 @@ import {
   Input,
   Box,
   Container,
+  HStack,
 } from "@chakra-ui/react";
 
 import { useForm } from "@refinedev/react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { MarkdownTextField, UsersField } from "../../components/form";
+import {
+  UsersField,
+  ActionTypeField,
+  ActionStatusField,
+  MarkdownTextField,
+} from "../../components/form";
 
-import { StorySchema, StoryType } from "./schema";
+import { ActionSchema, ActionType } from "./schema";
 
 //
 // Components
 //
 
 /**
- * Edit page for the ``Story`` entity.
+ * Creation page for the ``Action`` entity.
  */
-export const StoryEditPage: React.FC<IResourceComponentsProps> = () => {
-  // Form
+export const ActionCreatePage: React.FC<IResourceComponentsProps> = () => {
+  /**
+   * Prepare form
+   */
   const {
     control,
     refineCore: { formLoading },
     saveButtonProps,
     register,
     formState: { errors },
-  } = useForm<StoryType>({
-    resolver: zodResolver(StorySchema),
-    refineCoreProps: {
-      meta: {
-        populate: "*",
-      },
-    },
+  } = useForm<ActionType>({
+    resolver: zodResolver(ActionSchema),
   });
 
   return (
-    <Edit isLoading={formLoading} saveButtonProps={saveButtonProps}>
+    <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
       <Container maxW="container.xl" mt={5}>
         <Box
           w="full"
@@ -61,40 +64,35 @@ export const StoryEditPage: React.FC<IResourceComponentsProps> = () => {
           borderRadius="lg"
           boxShadow={"md"}
         >
-          <FormControl mb="3" isInvalid={!!(errors as any)?.id}>
-            <FormLabel>Id</FormLabel>
-            <Input
-              disabled
-              type="number"
-              {...register("id", {
-                required: "This field is required",
-                valueAsNumber: true,
-              })}
-            />
-            <FormErrorMessage>
-              {(errors as any)?.id?.message as string}
-            </FormErrorMessage>
-          </FormControl>
-          <Box mb={"3"}>
-            <UsersField
-              name={"application_users"}
-              label="Associated Users"
-              control={control}
-            />
-          </Box>
-
-          <FormControl mb="3" isInvalid={!!(errors as any)?.email}>
+          <FormControl mb={"3"} isInvalid={!!errors?.title}>
             <FormLabel>Title</FormLabel>
             <Input
-              type="title"
+              type="text"
               {...register("title", {
-                required: "This field is required",
+                required: "Title is required",
               })}
             />
             <FormErrorMessage>
               {(errors as any)?.title?.message as string}
             </FormErrorMessage>
           </FormControl>
+
+          <HStack spacing={2} mb={3} w={"full"}>
+            <Box w={"full"}>
+              <ActionTypeField
+                name={"type"}
+                label="Action Type"
+                control={control}
+              />
+            </Box>
+            <Box w={"full"}>
+              <ActionStatusField
+                name={"status"}
+                label="Status"
+                control={control}
+              />
+            </Box>
+          </HStack>
 
           <Box mb={"3"}>
             <MarkdownTextField
@@ -105,14 +103,14 @@ export const StoryEditPage: React.FC<IResourceComponentsProps> = () => {
           </Box>
 
           <Box mb={"3"}>
-            <MarkdownTextField
+            <UsersField
+              name={"application_users"}
+              label="Associated Users"
               control={control}
-              name={"experiences"}
-              label={"Experiences"}
             />
           </Box>
         </Box>
       </Container>
-    </Edit>
+    </Create>
   );
 };

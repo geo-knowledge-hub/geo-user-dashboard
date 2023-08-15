@@ -15,3 +15,4 @@ export {
   ProgrammeField,
   PackagesField,
 } from "./metadata";
+export { ActionTypeField, ActionStatusField } from "./action";

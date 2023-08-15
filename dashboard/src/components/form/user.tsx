@@ -89,7 +89,6 @@ export const UsersField = ({
   const serializer = (
     values: MultiValue<SerializerProps> | null,
   ): SerializerResult[] | null => {
-    console.log(values);
     return values !== null
       ? values.map((row) => ({
           id: row.value.id,

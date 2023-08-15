@@ -25,6 +25,7 @@ import {
 
 import {
   CountryCard,
+  LinkCard,
   OrganizationCard,
   ProgrammeCard,
 } from "../../components/details";
@@ -96,6 +97,21 @@ export const ProviderDetailsPage: React.FC<IResourceComponentsProps> = () => {
               <SimpleGrid columns={columnCount} spacing={4}>
                 {record?.metadata.programmes.map((programme, index) => (
                   <ProgrammeCard key={index} programme={programme} />
+                ))}
+              </SimpleGrid>
+
+              <Divider mt={8} mb={4} />
+
+              <Heading as="h3" size="md" mb={4}>
+                Knowledge Packages
+              </Heading>
+              <SimpleGrid columns={columnCount} spacing={4}>
+                {record?.metadata.packages.map((item, index) => (
+                  <LinkCard
+                    key={index}
+                    name={item.name}
+                    link={`/packages/${item.id}`}
+                  />
                 ))}
               </SimpleGrid>
             </Box>

@@ -6,6 +6,9 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
+/**
+ * User Payload from Manager.
+ */
 interface UserPayload {
   id: number;
   email: string;
@@ -16,6 +19,9 @@ interface UserPayload {
   username: null | string;
 }
 
+/**
+ * Authentication credential format.
+ */
 interface CredentialResponse {
   jwt: string;
   user: UserPayload;

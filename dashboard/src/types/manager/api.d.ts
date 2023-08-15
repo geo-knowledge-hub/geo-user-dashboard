@@ -51,3 +51,29 @@ interface UserApiDocument {
     };
   };
 }
+
+/**
+ * Action Metadata Document (Types and Status).
+ */
+interface ActionApiMetadataDocument {
+  id: number;
+  attributes: {
+    name: string;
+    description: string;
+    color: string;
+  };
+}
+
+/**
+ * Action Document.
+ */
+interface ActionApiDocument {
+  id: number;
+  attributes: {
+    title: string;
+    description: string;
+    application_users: UserApiDocument[];
+    statuses: ActionApiMetadataDocument[];
+    types: ActionApiMetadataDocument[];
+  };
+}

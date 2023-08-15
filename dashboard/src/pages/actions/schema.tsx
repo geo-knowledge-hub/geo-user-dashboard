@@ -9,34 +9,38 @@
 import { z } from "zod";
 
 /**
- * Stories schemas.
+ * Action schema.
  */
-
-export const StoryUserSchema = z.object({
-  id: z.number(),
-  name: z.string().nonempty(),
-  email: z.string().nonempty(),
-});
-
-export const StorySchema = z.object({
+export const ActionSchema = z.object({
   title: z.string().nonempty(),
   description: z
     .string()
     .min(20, "The description must have at least 20 characters")
-    .max(350, "The description must have up to 350 characters"),
-  experiences: z
-    .string()
-    .nonempty("Please, provide the user experiences")
-    .min(150, "The description must have at least 150 characters"),
+    .max(200, "The description must be up to 200 characters"),
   application_users: z
     .array(z.object({ name: z.string(), id: z.number() }))
     .transform((val) => {
       return val.map((row) => row.id);
     }),
+  status: z
+    .object({
+      id: z.number(),
+      name: z.string(),
+    })
+    .transform((val) => {
+      return val.id;
+    }),
+  type: z
+    .object({
+      id: z.number(),
+      name: z.string(),
+    })
+    .transform((val) => {
+      return val.id;
+    }),
 });
 
 /**
- * Stories type.
+ * Action type.
  */
-export type StoryType = z.infer<typeof StorySchema>;
-export type StoryUserType = z.infer<typeof StoryUserSchema>;
+export type ActionType = z.infer<typeof ActionSchema>;

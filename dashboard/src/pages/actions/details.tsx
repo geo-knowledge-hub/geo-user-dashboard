@@ -8,6 +8,8 @@
 
 import React from "react";
 
+import MDEditor from "@uiw/react-md-editor";
+
 import { Show } from "@refinedev/chakra-ui";
 import { useShow, IResourceComponentsProps } from "@refinedev/core";
 
@@ -15,27 +17,26 @@ import {
   Box,
   Container,
   Divider,
-  Flex,
   Heading,
   HStack,
-  useBreakpointValue,
-  useColorModeValue,
   VStack,
+  Flex,
+  TagLeftIcon,
 } from "@chakra-ui/react";
 
-import MDEditor from "@uiw/react-md-editor";
+import { IconChecklist, IconActivity } from "@tabler/icons";
 
-import { DateTag, UserCard } from "../../components/details";
+import { ActionTag, DateTag, UserCard } from "../../components/details";
 
 //
 // Components
 //
 
 /**
- * Details page for the ``Story`` entity.
+ * Details page for the ``Action`` entity.
  */
-export const StoryDetailsPage: React.FC<IResourceComponentsProps> = () => {
-  const { queryResult } = useShow<Story>({
+export const ActionDetailsPage: React.FC<IResourceComponentsProps> = () => {
+  const { queryResult } = useShow<Action>({
     meta: {
       populate: "*",
     },
@@ -43,7 +44,7 @@ export const StoryDetailsPage: React.FC<IResourceComponentsProps> = () => {
   const { data, isLoading } = queryResult;
 
   // Preparing data to render
-  const story = data?.data;
+  const action = data?.data;
 
   return (
     <Show isLoading={isLoading}>
@@ -59,13 +60,35 @@ export const StoryDetailsPage: React.FC<IResourceComponentsProps> = () => {
             >
               <Flex justifyContent={"space-between"}>
                 <Heading as="h2" size="lg" mb={4}>
-                  {story?.title}
+                  {action?.title}
                 </Heading>
 
                 <Flex gap={2}>
                   <>
-                    {story?.updatedAt !== undefined && (
-                      <DateTag date={story?.updatedAt} isToFormat={true} />
+                    {action?.status !== undefined && (
+                      <ActionTag
+                        text={action.status.name}
+                        colorScheme={action.status.color}
+                        size={"lg"}
+                      >
+                        <TagLeftIcon as={IconActivity} />
+                      </ActionTag>
+                    )}
+                  </>
+                  <>
+                    {action?.type !== undefined && (
+                      <ActionTag
+                        text={action.type.name}
+                        colorScheme={action.type.color}
+                        size={"lg"}
+                      >
+                        <TagLeftIcon as={IconChecklist} />
+                      </ActionTag>
+                    )}
+                  </>
+                  <>
+                    {action?.updatedAt !== undefined && (
+                      <DateTag date={action?.updatedAt} isToFormat={true} />
                     )}
                   </>
                 </Flex>
@@ -73,35 +96,26 @@ export const StoryDetailsPage: React.FC<IResourceComponentsProps> = () => {
 
               <Divider mt={5} mb={10} />
 
+              {/* Description */}
               <Box mt={5} mb={8}>
                 <MDEditor.Markdown
-                  source={story?.description}
+                  source={action?.description}
                   style={{ whiteSpace: "pre-wrap" }}
                 />
               </Box>
 
-              <Divider mb={8} />
+              <Divider />
+
+              {/* Users */}
               <Box mt={5} mb={8}>
                 <Heading as="h3" size="md" mb={4}>
                   Users
                 </Heading>
                 <HStack wrap={"wrap"}>
-                  {story?.application_users.map((user, index) => (
-                    <UserCard user={user} />
+                  {action?.application_users.map((user, index) => (
+                    <UserCard user={user} key={index} />
                   ))}
                 </HStack>
-              </Box>
-
-              <Divider mb={8} />
-
-              <Box mt={5} mb={8}>
-                <Heading as="h3" size="md" mb={4}>
-                  Experiences
-                </Heading>
-                <MDEditor.Markdown
-                  source={story?.experiences}
-                  style={{ whiteSpace: "pre-wrap" }}
-                />
               </Box>
             </Box>
           </VStack>

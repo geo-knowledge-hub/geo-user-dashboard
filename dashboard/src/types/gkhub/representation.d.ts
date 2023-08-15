@@ -6,6 +6,9 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
+/**
+ * Representation of a Knowledge Package.
+ */
 interface KnowledgePackageRepresentation {
   id: string;
   name?: string;

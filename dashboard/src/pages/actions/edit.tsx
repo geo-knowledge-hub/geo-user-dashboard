@@ -8,8 +8,8 @@
 
 import React from "react";
 
-import { Edit } from "@refinedev/chakra-ui";
 import { IResourceComponentsProps } from "@refinedev/core";
+import { Edit } from "@refinedev/chakra-ui";
 
 import {
   FormControl,
@@ -18,29 +18,29 @@ import {
   Input,
   Box,
   Container,
+  HStack,
 } from "@chakra-ui/react";
 
 import { useForm } from "@refinedev/react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
-  CountriesField,
-  DateField,
-  OrganizationsField,
-  PackagesField,
-  ProgrammeField,
+  UsersField,
+  ActionTypeField,
+  ActionStatusField,
+  MarkdownTextField,
 } from "../../components/form";
 
-import { UserSchema, ApplicationUserType } from "./schema";
+import { ActionSchema, ActionType } from "./schema";
 
 //
 // Components
 //
 
 /**
- * Edit page for the ``Application User`` entity.
+ * Edit page for the ``Action`` entity.
  */
-export const UserEditPage: React.FC<IResourceComponentsProps> = () => {
+export const ActionEditPage: React.FC<IResourceComponentsProps> = () => {
   // Form
   const {
     control,
@@ -48,8 +48,13 @@ export const UserEditPage: React.FC<IResourceComponentsProps> = () => {
     saveButtonProps,
     register,
     formState: { errors },
-  } = useForm<ApplicationUserType>({
-    resolver: zodResolver(UserSchema),
+  } = useForm<ActionType>({
+    resolver: zodResolver(ActionSchema),
+    refineCoreProps: {
+      meta: {
+        populate: "*",
+      },
+    },
   });
 
   return (
@@ -77,68 +82,48 @@ export const UserEditPage: React.FC<IResourceComponentsProps> = () => {
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl mb={"3"} isInvalid={!!errors?.name}>
-            <FormLabel>Name</FormLabel>
+          <FormControl mb={"3"} isInvalid={!!errors?.title}>
+            <FormLabel>Title</FormLabel>
             <Input
               type="text"
-              {...register("name", {
-                required: "This field is required",
+              {...register("title", {
+                required: "Title is required",
               })}
             />
             <FormErrorMessage>
-              {(errors as any)?.name?.message as string}
+              {(errors as any)?.title?.message as string}
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl mb="3" isInvalid={!!(errors as any)?.email}>
-            <FormLabel>Email</FormLabel>
-            <Input
-              type="email"
-              {...register("email", {
-                required: "This field is required",
-              })}
-            />
-            <FormErrorMessage>
-              {(errors as any)?.email?.message as string}
-            </FormErrorMessage>
-          </FormControl>
+          <HStack spacing={2} mb={3} w={"full"}>
+            <Box w={"full"}>
+              <ActionTypeField
+                name={"type"}
+                label="Action Type"
+                control={control}
+              />
+            </Box>
+            <Box w={"full"}>
+              <ActionStatusField
+                name={"status"}
+                label="Status"
+                control={control}
+              />
+            </Box>
+          </HStack>
 
           <Box mb={"3"}>
-            <DateField
-              name="usage_date"
-              label="Application usage date"
+            <MarkdownTextField
               control={control}
+              name={"description"}
+              label={"Description"}
             />
           </Box>
 
           <Box mb={"3"}>
-            <CountriesField
-              name={"metadata.countries"}
-              label="Country"
-              control={control}
-            />
-          </Box>
-
-          <Box mb={"3"}>
-            <OrganizationsField
-              name="metadata.organizations"
-              label="Organizations"
-              control={control}
-            />
-          </Box>
-
-          <Box mb={"3"}>
-            <ProgrammeField
-              name="metadata.programmes"
-              label="GEO Work Programme activities"
-              control={control}
-            />
-          </Box>
-
-          <Box mb={"3"}>
-            <PackagesField
-              name={"metadata.packages"}
-              label={"Knowledge Packages"}
+            <UsersField
+              name={"application_users"}
+              label="Associated Users"
               control={control}
             />
           </Box>

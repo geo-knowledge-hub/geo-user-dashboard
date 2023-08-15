@@ -13,7 +13,16 @@ import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/react";
 //
 // Types
 //
-interface SelectionFieldProps extends UseControllerProps {
+interface SingleSelectionFieldProps extends UseControllerProps {
+  label: string;
+  serializer: (value: any | null) => any | null;
+  deserializer: (value: any | undefined) => any | null;
+  isLoading: any;
+  defaultOptions: any;
+  loadOptions: any;
+}
+
+interface MultipleSelectionFieldProps extends UseControllerProps {
   label: string;
   serializer: (values: MultiValue<any> | null) => any[] | null;
   deserializer: (values: MultiValue<any> | undefined) => any[] | null;
@@ -25,6 +34,57 @@ interface SelectionFieldProps extends UseControllerProps {
 //
 // Components
 //
+
+/**
+ * Single Selection Field (Without nested field support)
+ * @param name {string} Name of the field where the data will be stored (Requires ``React Hook Form`` storage)
+ *                      (e.g., metadata)
+ * @param control {Control} ``React Hook Form`` control
+ * @param rules {array} List of rules.
+ * @param label {string} Name of the field in the page.
+ * @param serializer {function} Serializer function (Api Rest Document -> React Hook Form)
+ * @param deserializer {function} Deserializer function (React Hook Form -> React Select)
+ * @param ...props {object} Extra configurations for the ``React Select``
+ */
+export const SelectionFieldSimple = ({
+  name,
+  control,
+  rules,
+  label,
+  serializer,
+  deserializer,
+  ...props
+}: SingleSelectionFieldProps) => {
+  /**
+   * Preparing field.
+   */
+  const {
+    field: { onChange, onBlur, value, ref },
+    fieldState: { invalid, error },
+  } = useController({
+    control,
+    name,
+    rules,
+  });
+
+  return (
+    <FormControl isInvalid={invalid}>
+      <FormLabel>{label}</FormLabel>
+
+      <AsyncSelect
+        onChange={(newValue: any) => {
+          onChange(serializer(newValue));
+        }}
+        onBlur={onBlur}
+        ref={ref}
+        value={deserializer(value)}
+        {...props}
+      />
+
+      <FormErrorMessage>{error && error.message}</FormErrorMessage>
+    </FormControl>
+  );
+};
 
 /**
  * MultiSelection Field (Without nested field support)
@@ -45,7 +105,7 @@ export const MultiSelectionFieldSimple = ({
   serializer,
   deserializer,
   ...props
-}: SelectionFieldProps) => {
+}: MultipleSelectionFieldProps) => {
   /**
    * Preparing field.
    */
@@ -97,7 +157,7 @@ export const MultiSelectionFieldNested = ({
   serializer,
   deserializer,
   ...props
-}: SelectionFieldProps) => {
+}: MultipleSelectionFieldProps) => {
   /**
    * Auxiliary functions.
    */

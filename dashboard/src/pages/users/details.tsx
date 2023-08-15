@@ -28,6 +28,7 @@ import {
   CountryCard,
   DateTag,
   LinkCard,
+  InternalLinkCard,
   OrganizationCard,
   ProgrammeCard,
 } from "../../components/details";
@@ -43,7 +44,11 @@ export const UserDetailsPage: React.FC<IResourceComponentsProps> = () => {
   // Hooks
   const columnCount = useBreakpointValue({ base: 1, md: 2, lg: 3 });
 
-  const { queryResult } = useShow<ApplicationUser>();
+  const { queryResult } = useShow<ApplicationUser>({
+    meta: {
+      populate: "*",
+    },
+  });
   const { data, isLoading } = queryResult;
 
   // Preparing data to render
@@ -66,7 +71,7 @@ export const UserDetailsPage: React.FC<IResourceComponentsProps> = () => {
                   {record?.name}
                 </Heading>
                 {record?.usage_date !== undefined && (
-                  <DateTag date={record?.usage_date} />
+                  <DateTag date={record?.usage_date} isToFormat={true} />
                 )}
               </Flex>
 
@@ -121,6 +126,25 @@ export const UserDetailsPage: React.FC<IResourceComponentsProps> = () => {
                   />
                 ))}
               </SimpleGrid>
+
+              {record?.stories !== undefined && record?.stories.length > 0 && (
+                <>
+                  <Divider mt={8} mb={4} />
+
+                  <Heading as="h3" size="md" mb={4}>
+                    Stories
+                  </Heading>
+                  <SimpleGrid columns={columnCount} spacing={4}>
+                    {record?.stories.map((item, index) => (
+                      <InternalLinkCard
+                        key={index}
+                        name={item.title}
+                        link={`/stories/details/${item.id}`}
+                      />
+                    ))}
+                  </SimpleGrid>
+                </>
+              )}
             </Box>
           </VStack>
         </Container>
