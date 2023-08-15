@@ -41,6 +41,8 @@ import { Hero } from "./components/hero";
 import { Header } from "./components/header";
 import { Title } from "./components/title";
 
+import { RolePermissionGenerator } from "./security";
+
 import { UserRouteConfig, UserRouteResource } from "./pages/users";
 import { ProviderRouterConfig, ProviderRouteResource } from "./pages/providers";
 import { StoryRouterConfig, StoryRouteResource } from "./pages/stories";
@@ -73,9 +75,10 @@ export const Dashboard = () => {
         dataProvider={DataProvider(ProviderRestAPI, axiosInstance)}
         notificationProvider={notificationProvider}
         routerProvider={routerBindings}
+        accessControlProvider={RolePermissionGenerator.generate()}
         resources={[
-          UserRouteResource,
           ProviderRouteResource,
+          UserRouteResource,
           StoryRouteResource,
           ActionRouteResource,
         ]}

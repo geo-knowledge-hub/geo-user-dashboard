@@ -15,6 +15,8 @@ import { useLocation, useParams } from "react-router-dom";
 import { AuthConfig } from "../config";
 
 import GKHLogo from "../assets/gkh-logo.svg";
+import { axiosInstance } from "../network";
+import { readUserProfile } from "../resources/manager/auth";
 
 /**
  * Component to complete the login flow handling
@@ -37,8 +39,16 @@ export const AuthLoginRedirect: React.FC = () => {
         return res;
       })
       .then((res) => res.json())
-      .then((res) => {
-        login({ response: res });
+      .then(async (res) => {
+        // Preparing JWT
+        const { jwt } = res;
+
+        // Requesting User profile
+        const userProfile = await readUserProfile(jwt);
+        const userAuthObj = { jwt, user: userProfile };
+
+        // Login using refine
+        login({ response: userAuthObj });
       })
       .catch((err) => {
         console.log(err);

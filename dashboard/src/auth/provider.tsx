@@ -12,8 +12,6 @@ import { AuthConfig } from "../config";
 
 import axios from "axios";
 
-export const axiosInstance = axios.create();
-
 /**
  * Authentication flow for the dashboard auth providers.
  */

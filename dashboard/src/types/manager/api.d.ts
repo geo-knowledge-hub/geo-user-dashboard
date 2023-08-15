@@ -7,6 +7,21 @@
  */
 
 /**
+ * Manager Auth profile response.
+ */
+interface ManagerUserProfile {
+  id: number;
+  email: string;
+  username?: string;
+  provider: string;
+  role: {
+    id: number;
+    name: string;
+    type: string;
+  };
+}
+
+/**
  * General Manager Response.
  */
 interface ManagerApiResponse<T> {

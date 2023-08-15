@@ -25,6 +25,11 @@ export const AUTH_PROVIDER_CALLBACK_URL =
   "http://localhost:1337/api/auth/gkhub/callback";
 
 /**
+ * Authentication roles variables
+ */
+export const PROVIDER_ACCESS_ROLE = "geo_secretariat";
+
+/**
  * Project configuration variables
  */
 export const PROJECT_ID = "0QFr32-fOBOTD-njz8yB";
