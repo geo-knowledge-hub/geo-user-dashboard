@@ -9,17 +9,15 @@
 'use strict';
 
 module.exports = (ctx) => {
-  const {
-    filters
-  } = ctx.query
+  const { filters } = ctx.query;
   ctx.query = {
     ...ctx.query,
     filters: {
       ...filters,
       owner: {
-        id: ctx.state.user.id
-      }
-    }
-  }
+        id: ctx.state.user.id,
+      },
+    },
+  };
   return ctx;
-}
+};

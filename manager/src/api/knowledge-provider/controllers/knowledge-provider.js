@@ -9,7 +9,7 @@
 'use strict';
 
 const schema = require('../schema');
-const isOwnerFilter = require("../../../security/is-owner-filter");
+const isOwnerFilter = require('../../../security/is-owner-filter');
 
 /**
  * knowledge-provider controller

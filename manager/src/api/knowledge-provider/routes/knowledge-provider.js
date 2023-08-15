@@ -14,22 +14,25 @@
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::knowledge-provider.knowledge-provider', {
-  config: {
-    create: {
-      middlewares: ['global::assign-owner'],
+module.exports = createCoreRouter(
+  'api::knowledge-provider.knowledge-provider',
+  {
+    config: {
+      create: {
+        middlewares: ['global::assign-owner'],
+      },
+      find: {
+        policies: ['global::is-owner'],
+      },
+      findOne: {
+        policies: ['global::is-owner'],
+      },
+      update: {
+        policies: ['global::is-owner'],
+      },
+      delete: {
+        policies: ['global::is-owner'],
+      },
     },
-    find: {
-      policies: ['global::is-owner'],
-    },
-    findOne: {
-      policies: ['global::is-owner'],
-    },
-    update: {
-      policies: ['global::is-owner']
-    },
-    delete: {
-      policies: ['global::is-owner']
-    }
   }
-});
+);

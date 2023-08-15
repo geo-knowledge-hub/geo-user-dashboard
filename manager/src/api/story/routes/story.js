@@ -18,10 +18,10 @@ module.exports = createCoreRouter('api::story.story', {
       policies: ['global::is-owner'],
     },
     update: {
-      policies: ['global::is-owner']
+      policies: ['global::is-owner'],
     },
     delete: {
-      policies: ['global::is-owner']
-    }
-  }
+      policies: ['global::is-owner'],
+    },
+  },
 });

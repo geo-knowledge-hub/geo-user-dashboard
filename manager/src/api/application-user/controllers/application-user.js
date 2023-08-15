@@ -9,13 +9,12 @@
 'use strict';
 
 const schema = require('../schema');
-const isOwnerFilter = require("../../../security/is-owner-filter");
+const isOwnerFilter = require('../../../security/is-owner-filter');
 
 /**
  * application-user controller
  */
 const { createCoreController } = require('@strapi/strapi').factories;
-
 
 module.exports = createCoreController(
   'api::application-user.application-user',

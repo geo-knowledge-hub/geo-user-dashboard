@@ -14,8 +14,7 @@
 module.exports = (config, { strapi }) => {
   // Add your own logic here.
   return async (ctx, next) => {
-
-    ctx.request.body.data.owner = ctx.state.user.id
+    ctx.request.body.data.owner = ctx.state.user.id;
 
     await next();
   };

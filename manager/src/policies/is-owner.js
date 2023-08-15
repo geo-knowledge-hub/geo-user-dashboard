@@ -12,36 +12,32 @@
  * `is-owner` policy
  */
 
-module.exports = async (policyContext, config, {
-  strapi
-}) => {
-  const ctx = policyContext
+module.exports = async (policyContext, config, { strapi }) => {
+  const ctx = policyContext;
 
-  if (!ctx.state.isAuthenticated)
-    return false
+  if (!ctx.state.isAuthenticated) return false;
 
-  const api = ctx.state.route.info.apiName
+  const api = ctx.state.route.info.apiName;
 
-  const service = strapi.service(`api::${api}.${api}`)
+  const service = strapi.service(`api::${api}.${api}`);
 
-  if (!service)
-    return false
-  if (!ctx.params.id) return true
+  if (!service) return false;
+  if (!ctx.params.id) return true;
   const {
-    results: [content]
+    results: [content],
   } = await service.find({
     filters: {
       id: {
-        $eq: ctx.params.id
+        $eq: ctx.params.id,
       },
       owner: {
         id: {
-          $eq: ctx.state.user.id
-        }
-      }
+          $eq: ctx.state.user.id,
+        },
+      },
     },
-    publicationState: 'preview'
-  })
+    publicationState: 'preview',
+  });
 
-  return !!content
+  return !!content;
 };

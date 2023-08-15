@@ -26,10 +26,10 @@ module.exports = createCoreRouter('api::application-user.application-user', {
       policies: ['global::is-owner'],
     },
     update: {
-      policies: ['global::is-owner']
+      policies: ['global::is-owner'],
     },
     delete: {
-      policies: ['global::is-owner']
-    }
-  }
+      policies: ['global::is-owner'],
+    },
+  },
 });
