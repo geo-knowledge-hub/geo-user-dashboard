@@ -8,13 +8,14 @@
 
 'use strict';
 
+const schema = require('../schema');
+const isOwnerFilter = require('../../../security/is-owner-filter');
+
 /**
  * action controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
-
-const schema = require('../schema');
 
 module.exports = createCoreController('api::action.action', ({ strapi }) => ({
   async create(ctx) {
@@ -25,6 +26,10 @@ module.exports = createCoreController('api::action.action', ({ strapi }) => ({
       return await super.create(ctx);
     }
 
-    return ctx.badRequest('Invalid data format', {})
-  }
+    return ctx.badRequest('Invalid data format', {});
+  },
+  async find(ctx) {
+    const filteredCtx = isOwnerFilter(ctx);
+    return await super.find(filteredCtx);
+  },
 }));

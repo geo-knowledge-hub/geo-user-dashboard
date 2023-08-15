@@ -8,13 +8,14 @@
 
 'use strict';
 
+const schema = require('../schema');
+const isOwnerFilter = require("../../../security/is-owner-filter");
+
 /**
  * knowledge-provider controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
-
-const schema = require('../schema');
 
 module.exports = createCoreController(
   'api::knowledge-provider.knowledge-provider',
@@ -28,6 +29,10 @@ module.exports = createCoreController(
       }
 
       return ctx.badRequest('Invalid data format', {});
+    },
+    async find(ctx) {
+      const filteredCtx = isOwnerFilter(ctx);
+      return await super.find(filteredCtx);
     },
   })
 );

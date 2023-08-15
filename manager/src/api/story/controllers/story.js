@@ -8,13 +8,14 @@
 
 'use strict';
 
+const schema = require('../schema');
+const isOwnerFilter = require("../../../security/is-owner-filter");
+
 /**
  * story controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
-
-const schema = require('../schema');
 
 module.exports = createCoreController('api::story.story', ({ strapi }) => ({
   async create(ctx) {
@@ -25,5 +26,9 @@ module.exports = createCoreController('api::story.story', ({ strapi }) => ({
       return await super.create(ctx);
     }
     return ctx.badRequest('Invalid data format', {});
-  }
+  },
+  async find(ctx) {
+    const filteredCtx = isOwnerFilter(ctx);
+    return await super.find(filteredCtx);
+  },
 }));
