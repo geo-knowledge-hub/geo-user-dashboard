@@ -32,6 +32,9 @@ type IUser = {
   email: string;
 };
 
+/**
+ * Header component for the Dashboard.
+ */
 export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   sticky,
 }) => {

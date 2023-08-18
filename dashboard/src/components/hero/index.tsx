@@ -8,6 +8,9 @@
 
 import { Box, Heading, Container, Text, Button, Stack } from "@chakra-ui/react";
 
+/**
+ * Hero component for the Dashboard.
+ */
 export const Hero = () => {
   return (
     <>

@@ -19,6 +19,9 @@ type PaginationProps = {
   setCurrent: (page: number) => void;
 };
 
+/**
+ * Pagination component for the Dashboard list pages.
+ */
 export const ListPagination: React.FC<PaginationProps> = ({
   current,
   pageCount,

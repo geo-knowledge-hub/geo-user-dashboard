@@ -13,6 +13,9 @@ import GKHLogo from "../../assets/gkh-logo.svg";
 import { Box, Flex, Heading, Image } from "@chakra-ui/react";
 import { TitleProps } from "@refinedev/core";
 
+/**
+ * Title component for the dashboard sidebar.
+ */
 export const Title: React.FC<TitleProps> = ({ collapsed }) => {
   return (
     <Link to="/">
