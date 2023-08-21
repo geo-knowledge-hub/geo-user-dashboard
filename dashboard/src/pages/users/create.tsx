@@ -27,7 +27,6 @@ import {
   CountriesField,
   DateField,
   OrganizationsField,
-  ProgrammeField,
   PackagesField,
 } from "../../components/form";
 
@@ -108,14 +107,6 @@ export const UserCreatePage: React.FC<IResourceComponentsProps> = () => {
             <OrganizationsField
               name="metadata.organizations"
               label="Organizations"
-              control={control}
-            />
-          </Box>
-
-          <Box mb={"3"}>
-            <ProgrammeField
-              name="metadata.programmes"
-              label="GEO Work Programme activities"
               control={control}
             />
           </Box>

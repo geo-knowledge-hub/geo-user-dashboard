@@ -31,12 +31,14 @@ interface DescriptionProps extends UseControllerProps {
  * @param control {Control} ``React Hook Form`` control
  * @param rules {array} List of rules.
  * @param label {string} Name of the field in the page.
+ * @param defaultValue {string} Default value for the field.
  */
 export const MarkdownTextField = ({
   name,
   control,
   rules,
   label,
+  defaultValue,
 }: DescriptionProps) => {
   const {
     field: { onChange, value },
@@ -45,6 +47,7 @@ export const MarkdownTextField = ({
     control,
     name,
     rules,
+    defaultValue,
   });
 
   return (

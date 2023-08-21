@@ -11,7 +11,6 @@ import { AxiosInstance, AxiosResponse } from "axios";
 
 import { axiosInstance } from "../network";
 
-
 /**
  * Base class for API Clients.
  */

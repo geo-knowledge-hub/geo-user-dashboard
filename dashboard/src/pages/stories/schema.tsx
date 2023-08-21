@@ -28,6 +28,12 @@ export const StorySchema = z.object({
     .string()
     .nonempty("Please, provide the user experiences")
     .min(150, "The description must have at least 150 characters"),
+  competencies: z
+    .string()
+    .nonempty(
+      "Please, provide the user competencies required to use the application",
+    )
+    .min(150, "The description must have at least 150 characters"),
   application_users: z
     .array(z.object({ name: z.string(), id: z.number() }))
     .transform((val) => {

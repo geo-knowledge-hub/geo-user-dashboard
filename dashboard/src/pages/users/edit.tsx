@@ -128,14 +128,6 @@ export const UserEditPage: React.FC<IResourceComponentsProps> = () => {
           </Box>
 
           <Box mb={"3"}>
-            <ProgrammeField
-              name="metadata.programmes"
-              label="GEO Work Programme activities"
-              control={control}
-            />
-          </Box>
-
-          <Box mb={"3"}>
             <PackagesField
               name={"metadata.packages"}
               label={"Knowledge Packages"}

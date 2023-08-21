@@ -24,6 +24,7 @@ import { useForm } from "@refinedev/react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { StorySchema, StoryType } from "./schema";
+import { CompetenciesFieldTemplate } from "./templates";
 import { UsersField, MarkdownTextField } from "../../components/form";
 
 //
@@ -91,6 +92,15 @@ export const StoryCreatePage: React.FC<IResourceComponentsProps> = () => {
               control={control}
               name={"experiences"}
               label={"Experiences"}
+            />
+          </Box>
+
+          <Box mb={"3"}>
+            <MarkdownTextField
+              control={control}
+              name={"competencies"}
+              label={"Competencies required"}
+              defaultValue={CompetenciesFieldTemplate}
             />
           </Box>
         </Box>

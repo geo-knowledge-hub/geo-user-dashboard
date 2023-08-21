@@ -111,6 +111,14 @@ export const StoryEditPage: React.FC<IResourceComponentsProps> = () => {
               label={"Experiences"}
             />
           </Box>
+
+          <Box mb={"3"}>
+            <MarkdownTextField
+              control={control}
+              name={"competencies"}
+              label={"Competencies required"}
+            />
+          </Box>
         </Box>
       </Container>
     </Edit>
