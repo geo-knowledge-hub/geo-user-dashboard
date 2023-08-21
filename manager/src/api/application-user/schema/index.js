@@ -32,16 +32,6 @@ module.exports = yup.object({
           tag: yup.string().required(),
         })
       ),
-      programmes: yup
-        .array()
-        .of(
-          yup.object({
-            id: yup.string().required(),
-            name: yup.string().required(),
-            tag: yup.string().required(),
-          })
-        )
-        .required(),
       packages: yup
         .array()
         .of(

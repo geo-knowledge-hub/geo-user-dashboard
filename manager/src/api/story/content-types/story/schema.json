@@ -37,6 +37,11 @@
       "relation": "manyToMany",
       "target": "api::application-user.application-user",
       "mappedBy": "stories"
+    },
+    "competencies": {
+      "type": "richtext",
+      "required": true,
+      "minLength": 150
     }
   }
 }
