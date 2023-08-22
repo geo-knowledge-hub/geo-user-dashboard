@@ -92,9 +92,9 @@ export const PackagesField = ({
   /**
    * Function to append packages in the field.
    */
-  const append = (data: KnowledgePackageRepresentation) => {
+  const append = (data: KnowledgePackageRepresentation[]) => {
     const currentValue = getFromNestedKey(value);
-    const newValue = [...currentValue, data];
+    const newValue = [...currentValue, ...data];
 
     onChange({ ...value, ...addNestedKey(newValue) });
   };
@@ -117,12 +117,12 @@ export const PackagesField = ({
   const handleMultipleAdditions = (
     packages: KnowledgePackage[] | KnowledgePackageRepresentation[],
   ) => {
-    packages.forEach(({ id, name, metadata }: PackageForm) => {
-      append({
-        id,
-        name: name || metadata?.title,
-      });
-    });
+    const handledPackages = packages.map(({ id, name, metadata }: PackageForm) => ({
+      id,
+      name: name || metadata?.title,
+    }));
+
+    append(handledPackages)
   };
 
   /**
