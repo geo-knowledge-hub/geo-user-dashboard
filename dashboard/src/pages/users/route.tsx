@@ -20,6 +20,7 @@ const buildResourcePath = (path: string) =>
  */
 export const UserRouteConfig = {
   name: "application-users",
+  label: "Existing Users",
   base: {
     path: "/application-users",
     component: <UserListPage />,
@@ -49,5 +50,6 @@ export const UserRouteResource: ResourceProps = {
   show: buildResourcePath(UserRouteConfig.show.path),
   meta: {
     canDelete: true,
+    label: UserRouteConfig.label,
   },
 };

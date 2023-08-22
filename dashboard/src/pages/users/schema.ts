@@ -33,14 +33,6 @@ export const UserSchema = z.object({
       })
       .array()
       .nonempty(),
-    programmes: z
-      .object({
-        id: z.string().nonempty(),
-        name: z.string().nonempty(),
-        tag: z.string().nonempty(),
-      })
-      .array()
-      .nonempty(),
     packages: z
       .object({
         id: z.string().nonempty(),

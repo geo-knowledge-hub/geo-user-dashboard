@@ -12,6 +12,7 @@ module.exports = yup.object({
   title: yup.string().required().min(1),
   description: yup.string().required().min(20).max(350),
   experiences: yup.string().required().min(150),
+  competencies: yup.string().required().min(150),
   owner: yup.number().integer().notRequired(),
   application_users: yup.array().of(yup.number()).required(),
 });

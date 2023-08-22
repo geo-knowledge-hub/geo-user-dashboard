@@ -63,9 +63,7 @@
           }
         }
       },
-      "tags": [
-        "Global"
-      ],
+      "tags": ["Global"],
       "parameters": [
         {
           "name": "sort",
@@ -234,9 +232,7 @@
           }
         }
       },
-      "tags": [
-        "Global"
-      ],
+      "tags": ["Global"],
       "parameters": [],
       "operationId": "put/global",
       "requestBody": {
@@ -314,9 +310,7 @@
           }
         }
       },
-      "tags": [
-        "Global"
-      ],
+      "tags": ["Global"],
       "parameters": [],
       "operationId": "delete/global"
     }

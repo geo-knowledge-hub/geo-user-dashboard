@@ -103,6 +103,18 @@ export const StoryDetailsPage: React.FC<IResourceComponentsProps> = () => {
                   style={{ whiteSpace: "pre-wrap" }}
                 />
               </Box>
+
+              <Divider mb={8} />
+
+              <Box mt={5} mb={8}>
+                <Heading as="h3" size="md" mb={4}>
+                  Competencies required
+                </Heading>
+                <MDEditor.Markdown
+                  source={story?.competencies}
+                  style={{ whiteSpace: "pre-wrap" }}
+                />
+              </Box>
             </Box>
           </VStack>
         </Container>

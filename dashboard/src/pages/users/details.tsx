@@ -30,7 +30,6 @@ import {
   LinkCard,
   InternalLinkCard,
   OrganizationCard,
-  ProgrammeCard,
 } from "../../components/details";
 
 //
@@ -98,17 +97,6 @@ export const UserDetailsPage: React.FC<IResourceComponentsProps> = () => {
               <SimpleGrid columns={columnCount} spacing={4}>
                 {record?.metadata.organizations.map((org, index) => (
                   <OrganizationCard key={index} organization={org} />
-                ))}
-              </SimpleGrid>
-
-              <Divider mt={8} mb={4} />
-
-              <Heading as="h3" size="md" mb={4}>
-                GEO Work Programme Activities
-              </Heading>
-              <SimpleGrid columns={columnCount} spacing={4}>
-                {record?.metadata.programmes.map((programme, index) => (
-                  <ProgrammeCard key={index} programme={programme} />
                 ))}
               </SimpleGrid>
 

@@ -77,34 +77,6 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
         },
       },
       {
-        id: "gwp",
-        accessorKey: "metadata.programmes",
-        header: "GEO Programme",
-        cell: function render({ getValue }) {
-          const programmes = getValue<any>();
-
-          return (
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant={"outline"}
-                rightIcon={<IconChevronDown />}
-                size={"sm"}
-                fontWeight={"normal"}
-                w={"full"}
-              >
-                {programmes[0].tag}
-              </MenuButton>
-              <MenuList>
-                {programmes.map((programme: any, idx: number) => (
-                  <MenuItem key={idx}>{programme.name}</MenuItem>
-                ))}
-              </MenuList>
-            </Menu>
-          );
-        },
-      },
-      {
         id: "countries",
         accessorKey: "metadata.countries",
         header: "Countries",
@@ -232,7 +204,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
             marginTop="20px"
           >
             <Text fontSize="xx-large" color={textColor} fontWeight="bold">
-              Application Users
+              Existing Users
             </Text>
             <CreateButton />
           </Flex>
