@@ -53,8 +53,6 @@ export const ProviderCreatePage: React.FC<IResourceComponentsProps> = () => {
     resolver: zodResolver(KnowledgeProviderSchema),
   });
 
-  console.log(errors);
-
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
       <Container maxW="container.xl" mt={5}>
