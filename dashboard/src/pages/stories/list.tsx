@@ -38,14 +38,18 @@ import {
   CardBody,
   ButtonGroup,
   useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
 
+import _truncate from "lodash/truncate";
 import { IconChevronDown } from "@tabler/icons";
 
 import { ListPagination } from "../../components/list";
 
 import { StoryUserType } from "./schema";
-import _truncate from "lodash/truncate";
+import { FilterInput } from "../../components/form";
+
+import { buildConditionalFilter } from "../../toolbox";
 
 /**
  * List page for the ``Story`` entity.
@@ -53,6 +57,16 @@ import _truncate from "lodash/truncate";
 export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
   // Constants
   const textColor = useColorModeValue("gray.700", "white");
+
+  // Filter fields
+  const filterFields = [
+    "title",
+    "description",
+    "experiences",
+    "competencies",
+    "application_users.name",
+    "application_users.email",
+  ];
 
   // Hooks
   const columns = React.useMemo<ColumnDef<any>[]>(
@@ -131,12 +145,7 @@ export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
     getHeaderGroups,
     getRowModel,
     setOptions,
-    refineCore: {
-      setCurrent,
-      pageCount,
-      current,
-      tableQueryResult: { data: tableData },
-    },
+    refineCore: { setCurrent, pageCount, current, setFilters },
   } = useTable({
     columns,
     refineCoreProps: {
@@ -171,6 +180,17 @@ export const StoryListPage: React.FC<IResourceComponentsProps> = () => {
             <CreateButton />
           </Flex>
         </CardHeader>
+        <Box padding={5}>
+          <FilterInput
+            debounceTime={300}
+            setFiltersValue={(value) => {
+              setFilters([
+                buildConditionalFilter(filterFields, "contains", value),
+              ]);
+            }}
+            placeholder={"Type to search for stories"}
+          />
+        </Box>
         <CardBody overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }}>
           <Table variant="simple" color={textColor}>
             <Thead>

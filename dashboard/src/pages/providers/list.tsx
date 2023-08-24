@@ -43,11 +43,13 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 
+import _truncate from "lodash/truncate";
 import { IconChevronDown } from "@tabler/icons";
 import ReactCountryFlag from "react-country-flag";
 
 import { ListPagination } from "../../components/list";
-import _truncate from "lodash/truncate";
+import { FilterInput } from "../../components/form";
+import { buildConditionalFilter } from "../../toolbox";
 
 /**
  * List page for the``Knowledge Provider`` entity.
@@ -55,6 +57,9 @@ import _truncate from "lodash/truncate";
 export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
   // Constants
   const textColor = useColorModeValue("gray.700", "white");
+
+  // Filter fields
+  const filterFields = ["name", "email", "metadata"];
 
   // Hooks
   const columns = React.useMemo<ColumnDef<any>[]>(
@@ -200,12 +205,7 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
     getHeaderGroups,
     getRowModel,
     setOptions,
-    refineCore: {
-      setCurrent,
-      pageCount,
-      current,
-      tableQueryResult: { data: tableData },
-    },
+    refineCore: { setCurrent, pageCount, current, setFilters },
   } = useTable({
     columns,
     refineCoreProps: {
@@ -240,6 +240,17 @@ export const ProviderListPage: React.FC<IResourceComponentsProps> = () => {
             <CreateButton />
           </Flex>
         </CardHeader>
+        <Box padding={5}>
+          <FilterInput
+            debounceTime={300}
+            setFiltersValue={(value) => {
+              setFilters([
+                buildConditionalFilter(filterFields, "contains", value),
+              ]);
+            }}
+            placeholder={"Type to search for knowledge providers"}
+          />
+        </Box>
         <CardBody overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }}>
           <Table variant="simple" color={textColor}>
             <Thead>

@@ -8,6 +8,7 @@
 
 export { DateField } from "./date";
 export { UsersField } from "./user";
+export { FilterInput } from "./input";
 export { MarkdownTextField } from "./text";
 export {
   CountriesField,
