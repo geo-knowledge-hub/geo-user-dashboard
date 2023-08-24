@@ -43,16 +43,23 @@ import {
 } from "@chakra-ui/react";
 
 import { IconChevronDown } from "@tabler/icons";
-
 import ReactCountryFlag from "react-country-flag";
 
-import { ListPagination } from "../../components/list";
 import _truncate from "lodash/truncate";
+
+import { ListPagination } from "../../components/list";
+import { FilterInput } from "../../components/form";
+
+import { buildConditionalFilter } from "../../toolbox";
 
 /**
  * List page for the ``Application User`` entity.
  */
 export const UserListPage: React.FC<IResourceComponentsProps> = () => {
+  // Filter fields
+  const filterFields = ["name", "email", "metadata"];
+
+  // Columns
   const columns = React.useMemo<ColumnDef<any>[]>(
     () => [
       {
@@ -168,12 +175,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
     getHeaderGroups,
     getRowModel,
     setOptions,
-    refineCore: {
-      setCurrent,
-      pageCount,
-      current,
-      tableQueryResult: { data: tableData },
-    },
+    refineCore: { setCurrent, pageCount, current, setFilters },
   } = useTable({
     columns,
     refineCoreProps: {
@@ -209,6 +211,17 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
             <CreateButton />
           </Flex>
         </CardHeader>
+        <Box padding={5}>
+          <FilterInput
+            debounceTime={300}
+            setFiltersValue={(value) => {
+              setFilters([
+                buildConditionalFilter(filterFields, "contains", value),
+              ]);
+            }}
+            placeholder={"Type to search for existing users"}
+          />
+        </Box>
         <CardBody overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }}>
           <Table variant="simple" color={textColor}>
             <Thead>

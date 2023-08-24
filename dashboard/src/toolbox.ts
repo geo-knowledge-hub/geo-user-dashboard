@@ -6,18 +6,27 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-export const parseJwt = (token: string) => {
-  const base64Url = token.split(".")[1];
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  const jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join(""),
-  );
+import { ConditionalFilter, CrudOperators } from "@refinedev/core";
 
-  return JSON.parse(jsonPayload);
+/**
+ * Build a ``Conditional Filter``.
+ * @param fields {string[]} Filter fields
+ * @param operator {Exclude<CrudOperators, "or">} Logical filter operation
+ * @param value {any} Value of the filter.
+ */
+export const buildConditionalFilter = (
+  fields: string[],
+  operator: Exclude<CrudOperators, "or">,
+  value: any,
+): ConditionalFilter => {
+  const logicalFilters = fields.map((field) => ({
+    field,
+    operator,
+    value,
+  }));
+
+  return {
+    operator: "or",
+    value: logicalFilters,
+  };
 };

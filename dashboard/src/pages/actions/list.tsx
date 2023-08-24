@@ -41,15 +41,27 @@ import {
   Box,
 } from "@chakra-ui/react";
 
+import _truncate from "lodash/truncate";
 import { IconChevronDown } from "@tabler/icons";
 
 import { ListPagination } from "../../components/list";
-import { ActionTag } from "../../components/details/action";
-import _truncate from "lodash/truncate";
+import { ActionTag } from "../../components/details";
+import { FilterInput } from "../../components/form";
+import { buildConditionalFilter } from "../../toolbox";
 
 export const UserListPage: React.FC<IResourceComponentsProps> = () => {
   // Constants
   const textColor = useColorModeValue("gray.700", "white");
+
+  // Filter fields
+  const filterFields = [
+    "title",
+    "description",
+    "type.name",
+    "status.name",
+    "application_users.name",
+    "application_users.email",
+  ];
 
   // Hooks
   const columns = React.useMemo<ColumnDef<any>[]>(
@@ -148,12 +160,7 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
     getHeaderGroups,
     getRowModel,
     setOptions,
-    refineCore: {
-      setCurrent,
-      pageCount,
-      current,
-      tableQueryResult: { data: tableData },
-    },
+    refineCore: { setCurrent, pageCount, current, setFilters },
   } = useTable({
     columns,
     refineCoreProps: {
@@ -188,6 +195,17 @@ export const UserListPage: React.FC<IResourceComponentsProps> = () => {
             <CreateButton />
           </Flex>
         </CardHeader>
+        <Box padding={5}>
+          <FilterInput
+            debounceTime={300}
+            setFiltersValue={(value) => {
+              setFilters([
+                buildConditionalFilter(filterFields, "contains", value),
+              ]);
+            }}
+            placeholder={"Type to search for actions"}
+          />
+        </Box>
         <CardBody overflowX={{ sm: "scroll", md: "scroll", xl: "hidden" }}>
           <Table variant="simple" color={textColor} size={"lg"}>
             <Thead>
