@@ -1,0 +1,19 @@
+{
+  "name": "geo-user-dashboard",
+  "private": true,
+  "version": "0.1.0",
+  "author": {
+    "name": "GEO Knowledge Hub Team"
+  },
+  "keywords": ["dashboard", "manager", "strapi"],
+  "scripts": {
+    "develop:manager": "yarn --cwd manager && yarn --cwd manager develop",
+    "develop:dashboard": "wait-on http://localhost:1337/admin && yarn --cwd dashboard && yarn --cwd dashboard dev",
+    "develop": "cross-env FORCE_COLOR=1 npm-run-all -l -p develop:*"
+  },
+  "devDependencies": {
+    "npm-run-all": "4.1.5",
+    "wait-on": "5.2.1",
+    "cross-env": "7.0.3"
+  }
+}
