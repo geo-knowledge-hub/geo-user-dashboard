@@ -9,9 +9,11 @@
 /**
  * Rest API configuration variables
  */
-export const MANAGER_API_URL = "http://localhost:1337";
+export const MANAGER_API_URL =
+  import.meta.env.MANAGER_API_URL || "http://localhost:1337";
 
-export const GKHUB_API_URL = "https://localhost:5000/api";
+export const GKHUB_API_URL =
+  import.meta.env.GKHUB_API_URL || "https://localhost:5000/api";
 
 /**
  * Authentication configuration variables
@@ -20,8 +22,10 @@ export const AUTH_USER_OBJECT_KEY = "user";
 export const AUTH_USER_TOKEN_KEY = "token";
 export const AUTH_PROVIDER_NAME = "gkhub";
 export const AUTH_PROVIDER_CONNECT_URL =
+  import.meta.env.AUTH_PROVIDER_CONNECT_URL ||
   "http://localhost:1337/api/connect/gkhub";
 export const AUTH_PROVIDER_CALLBACK_URL =
+  import.meta.env.AUTH_PROVIDER_CALLBACK_URL ||
   "http://localhost:1337/api/auth/gkhub/callback";
 
 /**
