@@ -6,11 +6,11 @@
 
 - Added `Dashboard` based on [Refine](https://refine.dev/)
   - Support to the following entities:
-    - ``Knowledge Provider``;
-    - ``Existing User``;
-    - ``Stories``;
-    - ``Actions``.
-  - Search feature available to all entities
+    - ``Knowledge Provider``
+    - ``Existing User``
+    - ``Stories``
+    - ``Actions``
+  - Search available in all entities;
   - User access control (RBAC);
 
 - Added ``Dashboard manager (backend)`` based on [Strapi](https://strapi.io/).
