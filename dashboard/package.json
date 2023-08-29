@@ -50,7 +50,7 @@
   },
   "scripts": {
     "dev": "refine dev",
-    "build": "tsc && refine build",
+    "build": "tsc && refine build --base=/dashboard",
     "preview": "refine start",
     "refine": "refine"
   },
