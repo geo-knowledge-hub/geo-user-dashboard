@@ -61,7 +61,7 @@ export const searchPackages = async (
 ): Promise<HubApiResponse<KnowledgePackageApiDocument>> => {
   const packagesApiClient = new RecordApiClient<
     HubApiResponse<KnowledgePackageApiDocument>
-  >("records");
+  >("packages");
 
   return packagesApiClient.search(query).then((response) => response.data);
 };
