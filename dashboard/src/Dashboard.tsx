@@ -89,7 +89,7 @@ export const Dashboard = () => {
       >
         <Routes>
           <Route
-            path="/connect/:providerName/redirect"
+            path="/dashboard/connect/:providerName/redirect"
             element={<AuthLoginRedirect />}
           />
           <Route
