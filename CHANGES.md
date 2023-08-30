@@ -1,6 +1,6 @@
 # Changes
 
-## Version 0.1.0 (2023/08/29)
+## Version 0.1.0 (2023/08/30)
 
 - Initial public release;
 
