@@ -50,7 +50,7 @@
   },
   "scripts": {
     "dev": "refine dev",
-    "build": "tsc && refine build",
+    "build": "tsc && refine build --base=/dashboard && cp public/_redirects dist/",
     "preview": "refine start",
     "refine": "refine"
   },

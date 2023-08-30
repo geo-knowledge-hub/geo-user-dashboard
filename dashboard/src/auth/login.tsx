@@ -6,7 +6,7 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Box, Image } from "@chakra-ui/react";
 import { OAuthProvider, useLogin } from "@refinedev/core";
@@ -15,7 +15,6 @@ import { useLocation, useParams } from "react-router-dom";
 import { AuthConfig } from "../config";
 
 import GKHLogo from "../assets/gkh-logo.svg";
-import { axiosInstance } from "../network";
 import { readUserProfile } from "../resources/manager/auth";
 
 /**
@@ -53,7 +52,7 @@ export const AuthLoginRedirect: React.FC = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [location.search, params.providerName]);
+  }, [location.search, params.providerName, login]);
 
   return <></>;
 };

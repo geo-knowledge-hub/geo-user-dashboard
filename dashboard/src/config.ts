@@ -13,6 +13,7 @@ import {
   AUTH_PROVIDER_NAME,
   AUTH_USER_OBJECT_KEY,
   AUTH_USER_TOKEN_KEY,
+  BASE_PATH
 } from "./constants";
 
 /**
@@ -27,6 +28,11 @@ export const AuthConfig = {
 };
 
 /**
- * (Data Provider) Rest API Configuration
+ * (Data Provider) Rest API configuration
  */
 export const ProviderRestAPI = `${MANAGER_API_URL}/api`;
+
+/**
+ * (Application) Routes configuration
+ */
+export const ApplicationBasePath = BASE_PATH;

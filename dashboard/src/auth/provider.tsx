@@ -8,7 +8,7 @@
 
 import { AuthBindings } from "@refinedev/core";
 
-import { AuthConfig } from "../config";
+import { ApplicationBasePath, AuthConfig } from "../config";
 
 import axios from "axios";
 
@@ -31,17 +31,15 @@ export const AuthProvider: AuthBindings = {
       };
     }
 
-    if (response.user) {
+    else if (response.user) {
       localStorage.setItem(
         AuthConfig.storage_user_key,
         JSON.stringify(response.user),
       );
       localStorage.setItem(AuthConfig.storage_token_key, response.jwt);
 
-      return {
-        success: true,
-        redirectTo: "/",
-      };
+      // Force page reload to avoid ``local storage`` issues
+      window.location.href = ApplicationBasePath;
     }
 
     return {

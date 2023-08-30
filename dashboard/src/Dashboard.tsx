@@ -34,7 +34,7 @@ import { DashboardTheme } from "./theme";
 
 import { queryClient } from "./query";
 import { axiosInstance } from "./network";
-import { ProviderRestAPI } from "./config";
+import { ApplicationBasePath, ProviderRestAPI } from "./config";
 import { AuthProvider, AuthProviders, AuthLoginRedirect } from "./auth";
 
 import { Hero } from "./components/hero";
@@ -54,7 +54,7 @@ interface WrapperProps {
 
 const Wrapper = ({ children }: WrapperProps) => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={ApplicationBasePath}>
       <RefineKbarProvider>
         <QueryClientProvider client={queryClient}>
           <ChakraProvider theme={DashboardTheme}>{children}</ChakraProvider>
