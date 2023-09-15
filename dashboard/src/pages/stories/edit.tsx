@@ -23,7 +23,11 @@ import {
 import { useForm } from "@refinedev/react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { UsersField, PackagesField, MarkdownTextField } from "../../components/form";
+import {
+  UsersField,
+  PackagesField,
+  MarkdownTextField,
+} from "../../components/form";
 
 import { StorySchema, StoryType } from "./schema";
 

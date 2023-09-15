@@ -25,7 +25,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { StorySchema, StoryType } from "./schema";
 import { CompetenciesFieldTemplate } from "./templates";
-import { UsersField, PackagesField, MarkdownTextField } from "../../components/form";
+import {
+  UsersField,
+  PackagesField,
+  MarkdownTextField,
+} from "../../components/form";
 
 //
 // Components
