@@ -25,7 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { StorySchema, StoryType } from "./schema";
 import { CompetenciesFieldTemplate } from "./templates";
-import { UsersField, MarkdownTextField } from "../../components/form";
+import { UsersField, PackagesField, MarkdownTextField } from "../../components/form";
 
 //
 // Components
@@ -47,6 +47,9 @@ export const StoryCreatePage: React.FC<IResourceComponentsProps> = () => {
   } = useForm<StoryType>({
     resolver: zodResolver(StorySchema),
   });
+
+  console.log("errors");
+  console.log(errors);
 
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
@@ -101,6 +104,14 @@ export const StoryCreatePage: React.FC<IResourceComponentsProps> = () => {
               name={"competencies"}
               label={"Competencies required"}
               defaultValue={CompetenciesFieldTemplate}
+            />
+          </Box>
+
+          <Box mb={"3"}>
+            <PackagesField
+              name={"metadata.packages"}
+              label={"Knowledge Packages"}
+              control={control}
             />
           </Box>
         </Box>

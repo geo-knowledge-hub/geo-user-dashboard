@@ -18,14 +18,14 @@ import {
   Flex,
   Heading,
   HStack,
+  SimpleGrid,
   useBreakpointValue,
-  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 
 import MDEditor from "@uiw/react-md-editor";
 
-import { DateTag, UserCard } from "../../components/details";
+import { DateTag, UserCard, LinkCard } from "../../components/details";
 
 //
 // Components
@@ -35,6 +35,9 @@ import { DateTag, UserCard } from "../../components/details";
  * Details page for the ``Story`` entity.
  */
 export const StoryDetailsPage: React.FC<IResourceComponentsProps> = () => {
+  // Hooks
+  const columnCount = useBreakpointValue({ base: 1, md: 2, lg: 3 });
+
   const { queryResult } = useShow<Story>({
     meta: {
       populate: "*",
@@ -79,6 +82,21 @@ export const StoryDetailsPage: React.FC<IResourceComponentsProps> = () => {
                   style={{ whiteSpace: "pre-wrap" }}
                 />
               </Box>
+
+              <Divider mt={8} mb={4} />
+
+              <Heading as="h3" size="md" mb={4}>
+                Knowledge Packages
+              </Heading>
+              <SimpleGrid columns={columnCount} spacing={4}>
+                {story?.metadata.packages.map((item, index) => (
+                  <LinkCard
+                    key={index}
+                    name={item.name}
+                    link={`/packages/${item.id}`}
+                  />
+                ))}
+              </SimpleGrid>
 
               <Divider mb={8} />
               <Box mt={5} mb={8}>

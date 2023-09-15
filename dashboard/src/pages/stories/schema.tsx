@@ -39,6 +39,15 @@ export const StorySchema = z.object({
     .transform((val) => {
       return val.map((row) => row.id);
     }),
+  metadata: z.object({
+    packages: z
+      .object({
+        id: z.string().nonempty(),
+        name: z.string().nonempty(),
+      })
+      .array()
+      .nonempty(),
+  }),
 });
 
 /**
