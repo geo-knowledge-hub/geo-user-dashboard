@@ -15,4 +15,16 @@ module.exports = yup.object({
   competencies: yup.string().required().min(150),
   owner: yup.number().integer().notRequired(),
   application_users: yup.array().of(yup.number()).required(),
+  metadata: yup
+    .object({
+      packages: yup
+      .array()
+      .of(
+        yup.object({
+          id: yup.string().required(),
+          name: yup.string().required(),
+        })
+      )
+      .required(),
+    })
 });
