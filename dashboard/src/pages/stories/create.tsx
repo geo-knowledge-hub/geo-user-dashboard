@@ -52,9 +52,6 @@ export const StoryCreatePage: React.FC<IResourceComponentsProps> = () => {
     resolver: zodResolver(StorySchema),
   });
 
-  console.log("errors");
-  console.log(errors);
-
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
       <Container maxW="container.xl" mt={5}>
