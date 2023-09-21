@@ -1,5 +1,9 @@
 # Changes
 
+## Version 0.2.0 (2023/09/21)
+
+- Added `Knowledge Packages` property in the `Stories` entity.
+
 ## Version 0.1.0 (2023/08/30)
 
 - Initial public release;
