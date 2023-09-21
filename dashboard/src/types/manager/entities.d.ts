@@ -91,6 +91,9 @@ interface Story extends BaseEntity {
   experiences: string;
   competencies: string;
   application_users: ApplicationUser[];
+  metadata: {
+    packages: UserPackage[];
+  };
 }
 
 /**

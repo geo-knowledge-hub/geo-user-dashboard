@@ -29,9 +29,7 @@ export const AuthProvider: AuthBindings = {
       return {
         success: true,
       };
-    }
-
-    else if (response.user) {
+    } else if (response.user) {
       localStorage.setItem(
         AuthConfig.storage_user_key,
         JSON.stringify(response.user),

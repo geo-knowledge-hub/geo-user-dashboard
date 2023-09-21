@@ -117,12 +117,14 @@ export const PackagesField = ({
   const handleMultipleAdditions = (
     packages: KnowledgePackage[] | KnowledgePackageRepresentation[],
   ) => {
-    const handledPackages = packages.map(({ id, name, metadata }: PackageForm) => ({
-      id,
-      name: name || metadata?.title,
-    }));
+    const handledPackages = packages.map(
+      ({ id, name, metadata }: PackageForm) => ({
+        id,
+        name: name || metadata?.title,
+      }),
+    );
 
-    append(handledPackages)
+    append(handledPackages);
   };
 
   /**

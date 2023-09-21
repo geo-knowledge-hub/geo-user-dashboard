@@ -36,8 +36,8 @@ export const AUTH_PROVIDER_CALLBACK_URL =
 /**
  * Authentication roles variables
  */
-export const PROVIDER_ACCESS_ROLE = "geo_secretariat" ||
-  import.meta.env.VITE_PROVIDER_ACCESS_ROLE;
+export const PROVIDER_ACCESS_ROLE =
+  "geo_secretariat" || import.meta.env.VITE_PROVIDER_ACCESS_ROLE;
 
 /**
  * Project configuration variables

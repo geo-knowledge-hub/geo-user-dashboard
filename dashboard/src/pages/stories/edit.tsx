@@ -23,7 +23,11 @@ import {
 import { useForm } from "@refinedev/react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { MarkdownTextField, UsersField } from "../../components/form";
+import {
+  UsersField,
+  PackagesField,
+  MarkdownTextField,
+} from "../../components/form";
 
 import { StorySchema, StoryType } from "./schema";
 
@@ -117,6 +121,14 @@ export const StoryEditPage: React.FC<IResourceComponentsProps> = () => {
               control={control}
               name={"competencies"}
               label={"Competencies required"}
+            />
+          </Box>
+
+          <Box mb={"3"}>
+            <PackagesField
+              name={"metadata.packages"}
+              label={"Knowledge Packages"}
+              control={control}
             />
           </Box>
         </Box>

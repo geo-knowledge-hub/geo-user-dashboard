@@ -42,6 +42,10 @@
       "type": "richtext",
       "required": true,
       "minLength": 150
+    },
+    "metadata": {
+      "type": "json",
+      "required": true
     }
   }
 }

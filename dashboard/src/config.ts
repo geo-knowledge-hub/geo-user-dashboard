@@ -13,7 +13,7 @@ import {
   AUTH_PROVIDER_NAME,
   AUTH_USER_OBJECT_KEY,
   AUTH_USER_TOKEN_KEY,
-  BASE_PATH
+  BASE_PATH,
 } from "./constants";
 
 /**
